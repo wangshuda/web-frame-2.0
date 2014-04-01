@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"/WEB-INF/dtd/spring-beans.dtd">
+<beans>
+	<!-- Attention  -->
+    <bean id="RoleInitService" class="com.cintel.frame.auth.role.init.RoleInitService" singleton="false">
+    	<property name="roleFromSpringService">
+			<ref bean="RoleFromSpringService"/>
+		</property>
+    	<property name="roleInfoDao">
+			<ref bean="RoleInfoDao"/>
+		</property>
+    	<property name="roleTypeInfoDao">
+			<ref bean="RoleTypeDao"/>
+		</property>
+    </bean>
+    
+    <bean name="/roleInit" class="com.cintel.frame.auth.role.init.RoleInitAction" singleton="false">
+    	<property name="roleInitService">
+			<ref bean="RoleInitService"/>
+		</property>
+    </bean>
+    
+    <bean id="RoleFromSpringService" class="com.cintel.frame.auth.role.RoleFromSpringService" singleton="false">
+    	<property name="allRoleItemsList">
+			<ref bean="SpringRoleItemsListFactory"/>
+		</property>
+    </bean>
+
+	<bean id="SpringRoleItemsListFactory" class="com.cintel.frame.auth.role.SpringRoleListFactory" singleton="true">
+		<property name="excludedMenuIdRegex"><value></value></property>
+	</bean>
+	
+</beans>

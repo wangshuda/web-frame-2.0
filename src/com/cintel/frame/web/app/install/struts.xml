@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" 
+	"/WEB-INF/dtd/struts-config_1_2.dtd">
+
+<struts-config>
+
+	<action-mappings>
+		<action path="/install" type="org.springframework.web.struts.DelegatingActionProxy" name="" scope="request" parameter="method" validate="false">
+			<forward name="list" path="/install.do?method=listSqlContext"/>
+			<forward name="listSqlContext" path="/webui/system/install/listSqlContext.jsp"/>
+			<forward name="executeSqlResult" path="/webui/system/install/listSqlExecuteResult.jsp"/>
+		</action>
+	</action-mappings>
+</struts-config>

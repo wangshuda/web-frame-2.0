@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Implementation-Title: CIN-WEB-FRAME
+Implementation-Vendor: CINtel
+Implementation-Version: 1.0.2
+

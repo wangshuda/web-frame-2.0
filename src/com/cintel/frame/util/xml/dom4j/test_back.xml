@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<corp>
+	<employers>
+		<employer sex="male">王新</employer>
+	</employers>
+	<managers>
+		<manager age="18">Alice</manager>
+		<manager age="30">Bush</manager>
+	</managers>
+</corp>

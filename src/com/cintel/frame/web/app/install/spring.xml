@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+    "/WEB-INF/dtd/spring-beans.dtd">
+<beans default-lazy-init="true">
+    <bean id="TableDDLContext" class="com.cintel.frame.web.app.install.sql.EntityDDLContext">
+        <property name="type"><value>table</value></property>
+        <property name="checkTemplateSqlText"><value>select * from %s where 1=0</value></property>
+        <property name="dropTemplateSqlText"><value>drop table %s</value></property>
+        <property name="createMatchReg"><value><![CDATA[^(\s+)create(\s)table.*]]></value></property>
+        <property name="createParseReg"><value><![CDATA[(\s+)create(\s)table]]></value></property>
+    </bean>
+    
+    <bean id="IndexDDLContext" class="com.cintel.frame.web.app.install.sql.EntityDDLContext">
+        <property name="type"><value>index</value></property>
+        <property name="checkTemplateSqlText"><value></value></property>
+        <property name="dropTemplateSqlText"><value>ALTER TABLE %s DROP INDEX %s</value></property>
+        <property name="createMatchReg"><value><![CDATA[((^(\s+)create(\s)index.*)|(^(\s+)create(\s)unique.*))]]></value></property>
+        <property name="createParseReg"><value><![CDATA[(((\s+)create(\s)index)|((\s+)create(\s)unique(\s)index))]]></value></property>
+    </bean>
+    
+    <bean id="ViewDDLContext" class="com.cintel.frame.web.app.install.sql.EntityDDLContext">
+        <property name="type"><value>view</value></property>
+        <property name="checkTemplateSqlText"><value>select * from %s where 1=0</value></property>
+        <property name="dropTemplateSqlText"><value>drop view %s</value></property>
+        <property name="createMatchReg"><value><![CDATA[^(\s+)create(\s)view.*]]></value></property>
+        <property name="createParseReg"><value><![CDATA[(\s+)create(\s)view]]></value></property>
+    </bean>
+
+    <bean id="DataDDLContext" class="com.cintel.frame.web.app.install.sql.EntityDDLContext">
+        <property name="type"><value>data</value></property>
+        <property name="checkTemplateSqlText"><value>select * from %s where 1=0</value></property>
+        <property name="dropTemplateSqlText"><value></value></property>
+        <property name="createMatchReg"><value><![CDATA[^(\s+)insert(\s)into.*]]></value></property>
+        <property name="createParseReg"><value><![CDATA[(\s+)insert(\s)into]]></value></property>
+    </bean>
+    
+    <bean id="SqlMapClientNameMap" class="com.cintel.frame.web.app.install.sql.SqlMapClientLoader">
+    </bean>
+    
+    <bean id="SqlTextBuilder4Install" class="com.cintel.frame.web.app.install.sql.SqlTextBuilderAbstractImpl">
+        <property name="sqlTemplateMap">
+            <map>
+            	<entry key="table"><ref bean="TableDDLContext"/></entry>
+            	<entry key="view"> <ref bean="ViewDDLContext"/></entry>
+            	<entry key="index"><ref bean="IndexDDLContext"/></entry>
+            	<entry key="data"><ref bean="DataDDLContext"/></entry>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="DbContextMapLoader" class="com.cintel.frame.web.app.install.sql.DbContextMapLoader">
+    </bean>
+    
+    <bean id="InstallService" class="com.cintel.frame.web.app.install.InstallServiceImpl">
+        <property name="installDao">
+            <ref bean="InstallDao" />
+        </property>
+        <property name="sqlTemplateMap">
+            <map>
+            	<entry key="table"><ref bean="TableDDLContext"/></entry>
+            	<entry key="view"> <ref bean="ViewDDLContext"/></entry>
+            	<entry key="index"><ref bean="IndexDDLContext"/></entry>
+            	<entry key="data"><ref bean="DataDDLContext"/></entry>
+            </map>
+        </property>
+        <property name="sqlMapClientNameMap">
+            <ref bean="SqlMapClientNameMap" />
+        </property>
+        <property name="dbContextMap">
+            <ref bean="DbContextMapLoader" />
+        </property>
+    </bean>
+
+    <bean name="/install" class="com.cintel.frame.web.app.install.InstallAction" singleton="false">
+        <property name="installService">
+            <ref bean="InstallService" />
+        </property>
+    </bean>
+
+    <bean id="InstallDao" class="com.cintel.frame.web.app.install.InstallDaoImpl">
+        <property name="nameSpace"><value>Install</value></property>
+    </bean>
+</beans>

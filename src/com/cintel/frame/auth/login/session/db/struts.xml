@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" 
+	"/WEB-INF/dtd/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="SessionUserInfoForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="command" type="com.cintel.frame.auth.login.session.db.SessionUserInfo"/>
+		</form-bean>
+	</form-beans>
+	
+	<action-mappings>
+		<action path="/sessionUserInfo" type="org.springframework.web.struts.DelegatingActionProxy" name="SessionUserInfoForm" scope="request" parameter="method" validate="false">
+			<forward name="list" path="/sessionUserInfo.do?method=search"/>
+			<forward name="search" path="/webui/system/sessionUserInfo/list.jsp"/>
+		</action>
+	</action-mappings>
+</struts-config>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "/WEB-INF/dtd/sql-map-2.dtd">
+<!-- fileLocation: com/cintel/frame/auth/role/type/ibatis.xml -->
+
+<sqlMap namespace="RoleType">
+    <!--  typeAlias -->
+    <typeAlias alias="RoleType" type="com.cintel.frame.auth.role.type.RoleType"/>
+    
+    <resultMap id="ResultMap" class="RoleType">
+      <result property="roleKey" column="roleKey" jdbcType="varchar" />
+      <result property="roleTitle" column="roleTitle" jdbcType="varchar" />
+      <result property="loginUrl" column="loginUrl" jdbcType="varchar" />
+      <result property="logoutUrl" column="logoutUrl" jdbcType="varchar" />
+      <result property="welcomeUrl" column="welcomeUrl" jdbcType="varchar" />
+      <result property="roleLevel" column="roleLevel" jdbcType="int" />
+      <result property="roleGroup" column="roleGroup" jdbcType="int" />
+      <result property="description" column="description" jdbcType="varchar" />
+    </resultMap>
+
+    <resultMap id="ResultMap-JsonOption" class="com.cintel.frame.web.action.JsonOption">
+        <result property="value" column="roleKey" javaType="String"/>
+        <result property="label" column="roleTitle" javaType="String"/>
+    </resultMap>
+
+    <sql id="selectBody"> 
+        web_role_type.role_key as roleKey
+        ,web_role_type.role_title as roleTitle
+        ,web_role_type.login_url as loginUrl
+        ,web_role_type.logout_url as logoutUrl
+        ,web_role_type.welcome_url as welcomeUrl
+        ,web_role_type.role_level as roleLevel
+        ,web_role_type.role_group as roleGroup
+        ,web_role_type.description as description
+    </sql>
+
+
+       
+    <insert id="insert" parameterClass="RoleType">
+        insert into web_role_type(
+            role_key
+            ,role_title
+            ,login_url
+            ,logout_url
+            ,welcome_url
+            ,role_level
+            ,role_group
+            ,description
+        )
+        values(
+            #roleKey#
+            ,#roleTitle#
+            ,#loginUrl#
+            ,#logoutUrl#
+            ,#welcomeUrl#
+            ,#roleLevel#
+            ,#roleGroup#
+            ,#description#
+        )
+    </insert>
+    
+    <select id="list" resultMap="ResultMap">
+      select
+          <include refid="selectBody"/>
+      from web_role_type web_role_type
+    </select>
+    
+    <!--  here roleLevel and roleGroup can not rename. see RoleTypeAction.getGsonOption  -->
+    <select id="listJsonOption" resultMap="ResultMap-JsonOption" parameterClass="java.util.Map">
+      select
+         <include refid="selectBody"/>
+      from web_role_type web_role_type 
+      where 1=1
+      	<isNotEmpty property="roleLevel" prepend=" and ">web_role_type.role_level > #roleLevel# </isNotEmpty>
+      	<isNotEmpty property="roleGroup" prepend=" and ">web_role_type.role_group = #roleGroup# </isNotEmpty>
+    </select>
+       
+    <select id="search" resultMap="ResultMap" parameterClass="java.util.Map">
+        select
+            <include refid="selectBody"/>
+        from web_role_type web_role_type
+        where 1=1
+            <isNotEmpty property="searchColumn" prepend=" and ">web_role_type.$searchColumn$ like '%$key$%'</isNotEmpty>
+            <isNotEmpty property="roleGroup" prepend=" and ">web_role_type.role_group = #roleGroup# </isNotEmpty>
+            <isNotEmpty property="roleLevel" prepend=" and ">web_role_type.role_level > #roleLevel# </isNotEmpty>
+    </select>
+
+    <select id="get" resultMap="ResultMap" parameterClass="RoleType">
+        select
+          <include refid="selectBody"/>
+        from web_role_type web_role_type
+        where
+            web_role_type.role_key=#roleKey#
+    </select>
+
+    <update id="update" parameterClass="RoleType">
+        update web_role_type 
+        set
+            role_title=#roleTitle#
+            ,login_url=#loginUrl#
+            ,logout_url=#logoutUrl#
+            ,welcome_url=#welcomeUrl#
+            ,role_level=#roleLevel#
+            ,role_group=#roleGroup#
+            ,description=#description#
+         where
+              role_key=#roleKey#
+    </update>
+  
+    <delete id="delete"  parameterClass="RoleType">
+        delete 
+        from web_role_type
+        where
+             role_key=#roleKey#
+    </delete>
+    
+	<delete id="deleteAll" parameterClass="String">
+		delete from web_role_type 
+	</delete>
+</sqlMap>

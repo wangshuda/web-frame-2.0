@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "/WEB-INF/dtd/sql-map-2.dtd">
+<!-- fileLocation: com/cintel/frame/web/app/install/ibatis.xml -->
+
+<sqlMap namespace="Install">
+    <update id="executeSql" parameterClass="String">
+       $value$
+    </update>
+</sqlMap>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"/WEB-INF/dtd/spring-beans.dtd">
+<beans>
+	<bean id="RoleInfoDao" class="com.cintel.frame.webui.DomainDao">
+		<property name="sqlMapClient">
+			<ref bean="webSqlMapClient" />
+		</property>
+		<property name="nameSpace">
+			<value>RoleInfo</value>
+		</property>
+	</bean>
+	
+	<bean id="RoleInfoService" class="com.cintel.frame.auth.role.RoleInfoService">
+		<property name="dao">
+			<ref bean="RoleInfoDao" />
+		</property>
+		<property name="roleFuncItemsDao">
+			<ref bean="RoleFuncInfoDao" />
+		</property>
+		
+	</bean>
+	
+	<bean name="RoleInfoValidator" class="com.cintel.frame.auth.role.Validator">
+        <property name="needValidateNames" value="insert,update"/>
+	</bean>
+
+	<bean name="roleActionForwardKey" class="com.cintel.frame.web.action.ActionForwardKey">
+        <property name="afterInsert" value="search"/>
+        <property name="afterUpdate" value="search"/>
+        <property name="afterDelete" value="search"/>
+	</bean>
+	
+	<bean name="/roleInfo" class="com.cintel.frame.auth.role.RoleInfoAction" singleton="false">
+    	<property name="roleInfoService">
+    		<ref bean="RoleInfoService" />
+    	</property>
+    	<property name="allRoleItemsList">
+			<ref bean="SpringRoleItemsListFactory"/>
+		</property>
+    	<property name="loadRoleInfoFromSpring">
+			<value>${loadRoleInfoFromSpring}</value>
+		</property>
+        <property name="commandClass">
+        	<value>com.cintel.frame.auth.role.RoleInfoImpl</value>
+		</property>
+    	<property name="actionForwardKey" >
+    		<ref bean="roleActionForwardKey" />
+    	</property>
+    	<property name="validator" >
+    		<ref bean="RoleInfoValidator" />
+    	</property>
+    </bean>	
+</beans>

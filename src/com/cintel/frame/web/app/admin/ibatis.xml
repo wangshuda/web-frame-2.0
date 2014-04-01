@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "/WEB-INF/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="WebAdmin">
+    <!--  typeAlias -->
+    <typeAlias alias="WebAdmin" type="com.cintel.frame.web.app.admin.WebAdmin"/>
+    
+    <resultMap id="ResultMap" class="WebAdmin">
+      <result property="id" column="id" jdbcType="CHAR" />
+      <result property="loginName" column="loginName" jdbcType="CHAR" />
+      <result property="roleId" column="roleId" jdbcType="CHAR" />
+      <result property="authAreaCode" column="authAreaCode" jdbcType="CHAR" />
+      <result property="chineseName" column="chineseName" jdbcType="CHAR" />
+      <result property="password" column="password" jdbcType="CHAR" />
+      <result property="status" column="status" jdbcType="CHAR" />
+      <result property="telephone" column="telephone" jdbcType="CHAR" />
+      <result property="email" column="email" jdbcType="CHAR" />
+      <result property="description" column="description" jdbcType="CHAR" />
+      <result property="createDateTime" column="createDateTime" jdbcType="CHAR" />
+      <result property="lastLoignDateTime" column="lastLoignDateTime" jdbcType="CHAR" />
+      <result property="lastLoignIp" column="lastLoignIp" jdbcType="CHAR" />
+    </resultMap>
+
+    <resultMap id="ResultMap-JsonOption" class="com.cintel.frame.web.action.JsonOption">
+        <result property="value" column="id" javaType="String"/>
+        <result property="label" column="loginName" javaType="String"/>
+    </resultMap>
+
+    <sql id="selectBody-basic"> 
+        webAdminInfo.id as id
+        ,webAdminInfo.login_name as loginName
+        ,webAdminInfo.role_id as roleId
+        ,webAdminInfo.auth_area_code as authAreaCode
+        ,webAdminInfo.chinese_name as chineseName
+        ,webAdminInfo.password as password
+        ,webAdminInfo.status as status
+        ,webAdminInfo.telephone as telephone
+        ,webAdminInfo.email as email
+        ,webAdminInfo.description as description
+        ,webAdminInfo.create_date_time as createDateTime
+        ,webAdminInfo.last_loign_date_time as lastLoignDateTime
+        ,webAdminInfo.last_loign_ip as lastLoignIp
+    </sql>
+
+    <sql id="selectBody">
+    	<include refid="selectBody-basic"/>
+    	,roleInfo.role_id as roleId
+    </sql>
+    
+    <sql id="selectFrom">
+    	from web_admin webAdminInfo
+    		left join web_role roleInfo on webAdminInfo.role_id = roleInfo.role_id
+    </sql>
+    
+    <select id="list" resultMap="ResultMap">
+      select
+          <include refid="selectBody"/>
+     	<include refid="selectFrom"/>
+    </select>
+    
+    <select id="search" resultMap="ResultMap" parameterClass="java.util.Map">
+        select
+            <include refid="selectBody"/>
+        <include refid="selectFrom"/>
+        where 1=1
+            <isNotEmpty property="searchColumn" prepend=" and ">webAdminInfo.$searchColumn$ like '%$key$%'</isNotEmpty>
+            <isNotEmpty property="roleIdInList" prepend=" and ">webAdminInfo.role_id=#roleIdInList#</isNotEmpty>
+            <isNotEmpty property="statusInList" prepend=" and ">webAdminInfo.status=#statusInList#</isNotEmpty>
+    </select>
+      
+    <select id="listJsonOption" resultMap="ResultMap-JsonOption">
+      select
+      <include refid="selectBody"/>
+      <include refid="selectFrom"/>
+    </select>
+    
+    <select id="get" resultMap="ResultMap" parameterClass="WebAdmin">
+        select
+          <include refid="selectBody"/>
+        <include refid="selectFrom"/>
+        where
+		    webAdminInfo.id=#id#
+    </select>
+    
+    <select id="isUnique" resultClass="Integer" parameterClass="java.util.Map">
+       select
+           count(login_name)as uniqueCount
+       from web_admin webAdminInfo
+       where
+            webAdminInfo.login_name=#loginName#
+    </select>
+
+    <select id="getAuthUserContext" resultMap="ResultMap" parameterClass="java.util.Map">
+        select
+          <include refid="selectBody"/>
+        <include refid="selectFrom"/>
+        where
+            webAdminInfo.login_name = #user_name#
+            and webAdminInfo.password = #password#
+    </select>
+
+    <select id="getAuthUserRoleId" resultClass="String" parameterClass="java.util.Map">
+        select
+          web_admin.role_id as roleId
+        from web_admin
+        where
+            web_admin.login_name = #user_name#
+            and web_admin.password = #password#
+    </select>
+    
+    <select id="getAuthUserRoleName" resultClass="String" parameterClass="java.util.Map">
+        select
+          roleInfo.role_id as roleId
+        <include refid="selectFrom"/>
+        where
+            webAdminInfo.login_name = #user_name#
+            and webAdminInfo.password = #password#
+    </select>
+
+	<insert id="insert" parameterClass="WebAdmin">
+		insert into web_admin(
+		    id
+			,login_name
+			,role_id
+			,auth_area_code
+			,chinese_name
+			,password
+			,status
+			,telephone
+			,email
+			,description
+			,create_date_time
+			,last_loign_date_time
+			,last_loign_ip
+		)
+		values(
+		    #id#
+			,#loginName#
+			,#roleId#
+			,#authAreaCode#
+			,#chineseName#
+			,#password#
+			,#status#
+			,#telephone#
+			,#email#
+			,#description#
+			,#createDateTime#
+			,#lastLoignDateTime#
+			,#lastLoignIp#
+		)
+	</insert>
+	
+    <update id="update" parameterClass="WebAdmin">
+        update web_admin
+        set
+		    login_name=#loginName#
+			,role_id=#roleId#
+			,auth_area_code=#authAreaCode#
+			,chinese_name=#chineseName#
+			,password=#password#
+			,status=#status#
+			,telephone=#telephone#
+			,email=#email#
+			,description=#description#
+			,last_loign_date_time=#lastLoignDateTime#
+			,last_loign_ip=#lastLoignIp#
+         where
+		    web_admin.id=#id#
+    </update>
+  
+    <delete id="delete"  parameterClass="WebAdmin">
+        delete 
+        from web_admin
+        where
+		    id=#id#
+    </delete>
+</sqlMap>

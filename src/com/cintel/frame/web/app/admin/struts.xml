@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" 
+	"/WEB-INF/dtd/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="WebAdminForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="command" type="com.cintel.frame.web.app.admin.WebAdmin"/>
+		</form-bean>
+	</form-beans>
+	
+	<action-mappings>
+		<action path="/webAdmin" type="org.springframework.web.struts.DelegatingActionProxy" name="WebAdminForm" scope="request" parameter="method" validate="false">
+			<forward name="list" path="/webui/system/webAdmin/list.jsp" />
+			<forward name="edit" path="/webui/system/webAdmin/edit.jsp" />
+			<forward name="search" path="/webui/system/webAdmin/list.jsp" />
+			<forward name="afterInsert" path="/webAdmin.do?method=search" />
+			<forward name="afterUpdate" path="/webAdmin.do?method=search" />
+			<forward name="afterDelete" path="/webAdmin.do?method=search" />
+		</action>
+	</action-mappings>
+</struts-config>

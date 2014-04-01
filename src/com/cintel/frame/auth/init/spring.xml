@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"/WEB-INF/dtd/spring-beans.dtd">
+<beans>
+	<!-- Attention  -->
+    <bean id="InitAllItemsService" class="com.cintel.frame.auth.init.InitAllItemsServiceImpl" singleton="false">
+		<property name="menuInitService">
+			<ref bean="MenuInitService"/>
+		</property>
+		<property name="roleInitService">
+			<ref bean="RoleInitService"/>
+		</property>
+		<property name="allRoleItemsList">
+			<ref bean="SpringRoleItemsListFactory"/>
+		</property>
+    </bean>
+    
+    <bean name="/initAllItems" class="com.cintel.frame.auth.init.InitAllItemsAction" singleton="false">
+    	<property name="initAllItemsService">
+			<ref bean="InitAllItemsService"/>
+		</property>
+    </bean>
+</beans>

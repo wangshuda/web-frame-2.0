@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "/WEB-INF/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="FuncAuthUrlPattern">
+    <!--  typeAlias -->
+    <typeAlias alias="FuncAuthUrlPattern" type="com.cintel.frame.auth.func.pattern.FuncAuthUrlPattern"/>
+    
+    <resultMap id="ResultMap" class="FuncAuthUrlPattern">
+      <result property="id" column="id" jdbcType="Integer" />
+      <result property="funcId" column="funcId" jdbcType="integer" />
+      <result property="authUrlPattern" column="authUrlPattern" jdbcType="CHAR" />
+    </resultMap>
+
+
+    <sql id="selectBody"> 
+        urlPatternInfo.id as id
+        ,urlPatternInfo.func_id as funcId
+        ,urlPatternInfo.auth_url_pattern as authUrlPattern
+    </sql>
+    
+	<insert id="insert" parameterClass="FuncAuthUrlPattern">
+		insert into web_func_pattern(
+			func_id
+			,auth_url_pattern
+		)
+		values(
+			#funcId#
+			,#authUrlPattern#
+		)
+	</insert>
+    
+    <select id="list" resultMap="ResultMap" parameterClass="java.util.Map">
+      select
+          <include refid="selectBody"/>
+      from web_func_pattern urlPatternInfo
+      where
+      	urlPatternInfo.func_id=#funcId#
+    </select>
+    
+    <select id="search" resultMap="ResultMap" parameterClass="java.util.Map">
+        select
+            <include refid="selectBody"/>
+        from web_func_pattern urlPatternInfo
+        where urlPatternInfo.func_id=#funcId#
+    </select>
+    
+    <select id="get" resultMap="ResultMap" parameterClass="FuncAuthUrlPattern">
+        select
+          <include refid="selectBody"/>
+        from web_func_pattern urlPatternInfo
+        where
+		    urlPatternInfo.id=#id#
+    </select>
+
+    <update id="update" parameterClass="FuncAuthUrlPattern">
+        update web_func_pattern urlPatternInfo
+        set
+        	auth_url_pattern=#authUrlPattern#
+         where
+		    urlPatternInfo.id=#id#
+    </update>
+  
+    <delete id="delete"  parameterClass="FuncAuthUrlPattern">
+        delete 
+        from web_func_pattern 
+        where
+		    id=#id#
+    </delete>
+    
+    <delete id="deleteAll">
+        delete from web_func_pattern
+    </delete>
+</sqlMap>

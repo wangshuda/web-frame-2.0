@@ -1,0 +1,749 @@
+Version:      1.0.3T10
+SVN Version:  41929
+Release Date: 2013/12/12
+Modify Content:
+1:增加http连接池的消息处理类
+-------------------------------------------------------------------------------------
+Version:      1.0.3T9
+SVN Version:  41633
+Release Date: 2013/11/13
+Modify Content:
+1:修改WorkBookBox中buildCellData方法对浮点数值处理的Bug
+-------------------------------------------------------------------------------------
+Version:      1.0.3T8
+SVN Version:  41338
+Release Date: 2013/09/18
+Modify Content:
+1:WorkSheetInfo对键值对错误的错误提示语加载模式；
+-------------------------------------------------------------------------------------
+Version:      1.0.3T7
+SVN Version:  41129
+Release Date: 2013/08/12
+Modify Content:
+1:修改Excel导入逻辑， 增加startRowIndex属性，支持非0的起始行文件导入;
+2:FileUtils增加对null的判断;
+3:修改数据对象键值对判断逻辑
+-------------------------------------------------------------------------------------
+Version:      1.0.3T6
+SVN Version:  40357
+Release Date: 2013/07/09
+Modify Content:
+1:修改AuthActionAbstractImpl类，将登录时的ip、session和时间参数放到参数的map中;
+2:修改JsonOption，增加rowData属性，支持在传递Option时可以扩展其他数据;
+3:修改FuncItemImpl，增加key键重复检查的开关checkSameKey;
+4:AuthorizeRoleTag,AuthorizeFuncTag增加var属性，支持变量输出;
+5:增加GrantedFuncCheckUtils提供判断对用户的功能项检查功能;
+6:完善了HttpUploadService中的下载报错提示信息;
+7:增加HttpUtils类在http的package中;
+-------------------------------------------------------------------------------------
+Version:      1.0.3T5
+SVN Version:  39678
+Release Date: 2013/05/28
+Modify Content:
+1:修改AuthorizeRoleTag的算法，支持spring的匹配算法，可以用**来判断是否匹配，比如authz:authorize ifAnyGranted="ROLE_CRM_CORP_**"；
+2:修改funcItem增加类型判断接口;
+-------------------------------------------------------------------------------------
+Version:      1.0.3T4
+SVN Version:  39425
+Release Date: 2013/05/10
+Modify Content:
+1:修改poi导入数据解析的结果，在WorkSheetInfo中增加loadPoiObjFromCellDataArr方法；
+-------------------------------------------------------------------------------------
+Version:      1.0.3T3
+SVN Version:  39387
+Release Date: 2013/05/09
+Modify Content:
+1：AttachmentBuilder的loadFromResponse返回值改为List<Attachment>--》依赖jdk6的rt.jar
+2：AttachmentBuilderImpl的loadFromResponse返回值改为List<Attachment>--》依赖jdk6的rt.jar
+3: SpringBean2MapFactory加载确认逻辑，实现可二次加载;
+4: poi对日期格式的兼容
+-------------------------------------------------------------------------------------
+Version:      1.0.3T2
+SVN Version:  38960
+Release Date: 2013/04/08
+Modify Content:
+1：ConvertUtils中增加unicodeToGb2312方法，同时合并EncodeUtils里的这个同名方法
+-------------------------------------------------------------------------------------
+Version:      1.0.3T1
+SVN Version:  38722
+Release Date: 2013/03/27
+Modify Content:
+1：DateUtils修改timeStamp2DtStr方法；
+2：修改ConvertUtils的ascii2Native方法的bug
+-------------------------------------------------------------------------------------
+Version:      1.0.2T99
+SVN Version:  38317
+Release Date: 2013/02/22
+Modify Content:
+1：RandomUtils兼容genDataStreamNum方法
+-------------------------------------------------------------------------------------
+Version:      1.0.2T98
+SVN Version:  38269
+Release Date: 2013/02/19
+Modify Content:
+1：RandomUtils增加genRandomStr方法;
+2:HttpMsgSender异常告警时打印URL地址;
+-------------------------------------------------------------------------------------
+Version:      1.0.2T97
+SVN Version:  36465
+Release Date: 2012/10/12
+Modify Content:
+1：修改EasyFtpClient，支持ftp命令执行方法
+-------------------------------------------------------------------------------------
+Version:      1.0.2T96
+SVN Version:  36367
+Release Date: 2012/09/28
+Modify Content:
+1：增加汉字转换拼音的工具类PinYinUtils
+-------------------------------------------------------------------------------------
+Version:      1.0.2T95
+SVN Version:  35858
+Release Date: 2012/09/03
+Modify Content:
+1：修改Http下载逻辑HttpUploadService支持：取完整路径，加载文件上下文，下载文件内容
+-------------------------------------------------------------------------------------
+Version:      1.0.2T94
+SVN Version:  35088
+Release Date: 2012/07/13
+Modify Content:
+1：WorkBookBox修改公式单元格处理逻辑
+-------------------------------------------------------------------------------------
+Version:      1.0.2T93
+SVN Version:  35088
+Release Date: 2012/07/13
+Modify Content:
+1：WorkBookBox修改公式单元格处理逻辑
+-------------------------------------------------------------------------------------
+Version:      1.0.2T92
+SVN Version:  34574
+Release Date: 2012/06/07
+Modify Content:
+1：修改Excel导入解析时的报错机制（ExcelServiceImpl）
+2：修改ErrorInfo增加newInstance方法，直接由code和msg生成ErrorInfo
+-------------------------------------------------------------------------------------
+Version:      1.0.2T91
+SVN Version:  34461
+Release Date: 2012/05/31
+Modify Content:
+1：RandomGeneratorTag增加对dataRow的流水号的支持
+-------------------------------------------------------------------------------------
+Version:      1.0.2T90
+SVN Version:  34290
+Release Date: 2012/05/22
+Modify Content:
+1：调整tag标签的赋值范围由默认为PAGE改为REQUEST
+-------------------------------------------------------------------------------------
+Version:      1.0.2T89
+SVN Version:  34169
+Release Date: 2012/05/16
+Modify Content:
+1：增加随机数标签RandomGeneratorTag
+-------------------------------------------------------------------------------------
+Version:      1.0.2T88
+SVN Version:  32239
+Release Date: 2011/12/21
+Modify Content:
+1：修改Http的Upload方法，将ClientIgnoreException调整为告警.
+2: 修改登录把原来的RoleContext改成接口，增加了RoleContextImpl类
+-------------------------------------------------------------------------------------
+Version:      1.0.2T87
+SVN Version:  32037
+Release Date: 2011/12/15
+Modify Content:
+1：修改RandomUtils类的genDataStreamNum方法
+-------------------------------------------------------------------------------------
+Version:      1.0.2T86
+SVN Version:  31821
+Release Date: 2011/12/07
+Modify Content:
+1：修改RandomUtils类，增加附带当前时间的随机数的方法
+-------------------------------------------------------------------------------------
+Version:      1.0.2T85
+SVN Version:  31650
+Release Date: 2011/11/30
+Modify Content:
+1：修改POI方法增加支持日期格式的Cell导入。
+2：修改basedispatchaction的json方法
+-------------------------------------------------------------------------------------
+Version:      1.0.2T84
+SVN Version:  31071
+Release Date: 2011/11/02
+Modify Content:
+1：修改EncodeUtils，解决不能处理中文标点的问题。
+2：修改ConvertUtils，增加native2ascii和ascii2native方法，解决中文转换的问题
+-------------------------------------------------------------------------------------
+Version:      1.0.2T82
+SVN Version:  30763
+Release Date: 2011/10/20
+Modify Content:
+1： 导出EXCEL的优化
+-------------------------------------------------------------------------------------
+
+Version:      1.0.2T81
+SVN Version:  30281
+Release Date: 2011/09/26
+Modify Content:
+1： 修改HttpMsgSender，增加对post方式的支持，并改造内部实现；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T80
+SVN Version:  29907
+Release Date: 2011/09/13
+Modify Content:
+1: FormatUtils增加isNumeric方法，判断字符串是否为数字；
+2： StringUtils的hasText方法优化，默认为hasLength方法，将原来的hasText方法调整为hasNoneBlankText方法；
+3： 修改MenuTitleTag的help逻辑的判断条件，只要helpKey或helpLink非空，即可显示；
+-------------------------------------------------------------------------------------
+
+Version:      1.0.2T79
+SVN Version:  29033
+Release Date: 2011/08/17
+Modify Content:
+1: 解决PageResult不能Gson序列化的问题
+-------------------------------------------------------------------------------------
+
+Version:      1.0.2T78
+SVN Version:  27479
+Release Date: 2011/07/07
+Modify Content:
+1: 修改BeanReadTag将输出由字符串调整为Object
+-------------------------------------------------------------------------------------
+Version:      1.0.2T77
+SVN Version:  26586
+Release Date: 2011/06/17
+Modify Content:
+1: FileUtils关于异常处理的修改。
+-------------------------------------------------------------------------------------
+
+Version:      1.0.2T76
+SVN Version:  26518
+Release Date: 2011/06/15
+Modify Content:
+1: 导出到CSV文件的时候增加分页导出功能。
+-------------------------------------------------------------------------------------
+Version:      1.0.2T75
+SVN Version:  26406
+Release Date: 2011/06/08
+Modify Content:
+1: 修改当页数接近1w数据时，分页标签的内存溢出错误
+-------------------------------------------------------------------------------------
+Version:      1.0.2T74
+SVN Version:  26214
+Release Date: 2011/05/30
+Modify Content:
+1: 修改FileUtils的copy方法中流操作的告警，避免语音浏览试听时的错误异常日志；
+2：在RandomUtils方法中增加UUID的随机生成策略；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T73
+SVN Version:  25997
+Release Date: 2011/05/18
+Modify Content:
+1: FormatUtils增加号码加密的功能函数
+-------------------------------------------------------------------------------------
+Version:      1.0.2T72
+SVN Version:  24749
+Release Date: 2011/03/17
+Modify Content:
+1: 修改登录模块，将请求的IP地址会同原来用户名和密码传递给鉴权的Service。
+-------------------------------------------------------------------------------------
+Version:      1.0.2T71
+SVN Version:  24440
+Release Date: 2011/01/24
+Modify Content:
+1: 修改了Http模块，增加了对webdav用户名和密码的支持。
+-------------------------------------------------------------------------------------
+Version:      1.0.2T70
+SVN Version:  24367
+Release Date: 2011/01/19
+Modify Content:
+1:FileUtils 
+	1)增加void save(InputStream in, File out)方法
+2:BaseAction
+    1)修改execute方法	
+3：ErroReportException
+    1)修改ErrorReportException(Exception ex)方法里的log内容
+-------------------------------------------------------------------------------------
+Version:      1.0.2T70
+SVN Version:  24119
+Release Date: 2011/01/05
+Modify Content:
+1:BaseDispatchAction 
+	1)search，read，pageSearch方法增加对json的支持。
+-------------------------------------------------------------------------------------
+Version:      1.0.2T69
+SVN Version:  24094
+Release Date: 2011/01/04
+Modify Content:
+1:BaseDispatchAction 
+	1)修改Http下载时的异常处理，排除客户端关闭的异常处理。
+-------------------------------------------------------------------------------------
+Version:      1.0.2T68
+SVN Version:  23977
+Release Date: 2010/12/29
+Modify Content:
+1:BaseDispatchAction 
+	1)增加doUpdatePre、getActionForwardWithRequest和batchExport方法
+	2)修改BaseDispatchAction的insert和update方法
+-------------------------------------------------------------------------------------
+Version:      1.0.2T67
+SVN Version:  23376
+Release Date: 2010/12/08
+Modify Content:
+1:修改HttpMethodExecutor增加对认证功能的支持，具体配置通过HttpAuthCtx完成；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T66
+SVN Version:  23235
+Release Date: 2010/12/02
+Modify Content:
+1：修改了c:import标签的实现：
+  1）增加了urlExistVar属性，可以返回url文件地址是否存在；
+  2）文件不存在则直接结束标签，不抛异常
+-------------------------------------------------------------------------------------
+Version:      1.0.2T65
+SVN Version:  23007
+Release Date: 2010/11/19
+Modify Content:
+1：增加com.cintel.frame.spring.ResourceListLoader类，支持将resourceLocation通配符转换为Resource的List返回.
+2：修改jfreechart模块对饼图的支持；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T64
+SVN Version:  22804
+Release Date: 2010/11/11
+Modify Content:
+1：修改Excel的导出功能，支持导出到多个Sheet及将多个Excel文件整合到Zip流中的功能。
+-------------------------------------------------------------------------------------
+Version:      1.0.2T63
+SVN Version:  22743
+Release Date: 2010/11/09
+Modify Content:
+1：CSVS格式文件导出功能的修改
+-------------------------------------------------------------------------------------
+Version:      1.0.2T62
+SVN Version:  22727
+Release Date: 2010/11/09
+Modify Content:
+1：CSVS格式文件导出功能的修改
+-------------------------------------------------------------------------------------
+Version:      1.0.2T61
+SVN Version:  22168
+Release Date: 2010/10/19
+Modify Content:
+1：增加CSVS格式文件导入功能
+-------------------------------------------------------------------------------------
+Version:      1.0.2T60
+SVN Version:  21785
+Release Date: 2010/09/29
+Modify Content:
+1：修改数据查询的时分页功能   
+-------------------------------------------------------------------------------------
+Version:      1.0.2T59
+SVN Version:  21729
+Release Date: 2010/09/28
+Modify Content:
+1：修改了IDomainDao.java ,DomainDao.java ,IDomainService.java,IDomainService.java
+   增加了对数据查询的时候查询total和分页功能
+-------------------------------------------------------------------------------------
+Version:      1.0.2T58
+SVN Version:  21621
+Release Date: 2010/09/27
+Modify Content:
+1：修改WebHelp的ibatis文件
+-------------------------------------------------------------------------------------
+Version:      1.0.2T57
+SVN Version:  20943
+Release Date: 2010/09/08
+Modify Content:
+1：修改Excel导出时的样式风格
+-------------------------------------------------------------------------------------
+Version:      1.0.2T56
+SVN Version:  20138
+Release Date: 2010/07/22
+Modify Content:
+1：ShellCmdExecutor增加String execute(String[] cmdArgs ,String cmdKey )方法
+-------------------------------------------------------------------------------------
+Version:      1.0.2T55
+SVN Version:  19605
+Release Date: 2010/06/30
+Modify Content:
+1:添加了导出pdf格式的包，具体包括两个包：com.cintel.frame.poi.pdf和com.cintel.frame.poi.pdf.test;
+-------------------------------------------------------------------------------------
+Version:      1.0.2T54
+SVN Version:  19447
+Release Date: 2010/06/21
+Modify Content:
+1:增加了SpringBean2MapFactory，用来根据类名，将所有spring的所有类都加载到一个map中；
+2:helpInfo部分，将读取文件的编码方式改为UTF-8；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T53
+SVN Version:  19383
+Release Date: 2010/06/13
+Modify Content:
+1：修改了WorkBookBox，增加对单元格与合并单元格的支持，用来统计报表输出用；
+2：DateUtils增加了formatTransfer方法，用来日期字符串的格式转换；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T52
+SVN Version:  19258
+Release Date: 2010/06/09
+Modify Content:
+1：增加了对数据库查询的分页功能
+-------------------------------------------------------------------------------------
+Version:      1.0.2T51
+SVN Version:  19152
+Release Date: 2010/06/02
+Modify Content:
+1：对帮助信息模块进行的完善，如果库表中没有相关信息，则去查找文本文件，若没有相应的文本文件，才返回空。
+-------------------------------------------------------------------------------------
+Version:      1.0.2T50
+SVN Version:  18537
+Release Date: 2010/04/27
+Modify Content:
+1：修改了menuTitle标签的bug
+2：增加了帮助信息模块
+-------------------------------------------------------------------------------------
+Version:      1.0.2T49
+SVN Version:  18505
+Release Date: 2010/04/23
+Modify Content:
+1：增加了menuTitle标签对帮助信息的支持
+2：增加了HelpWikiTag标签
+-------------------------------------------------------------------------------------
+Version:      1.0.2T48
+SVN Version:  18023
+Release Date: 2010/04/02
+Modify Content:
+1：增加了对国际化的支持
+2：增加了对日志文件和管理
+-------------------------------------------------------------------------------------
+Version:      1.0.2T47
+SVN Version:  17243
+Release Date: 2010/03/10
+Modify Content:
+1：修改了标签menu:title的bug
+2：添加了类OperateCmdServlet.java
+-------------------------------------------------------------------------------------
+Version:      1.0.2T46
+SVN Version:  17185
+Release Date: 2010/03/09
+Modify Content:
+1：在类HttpUploadService.java中添加了根据targetFileURL进行下载文件的方法
+-------------------------------------------------------------------------------------
+Version:      1.0.2T45
+SVN Version:  17075
+Release Date: 2010/03/04
+Modify Content:
+1：添加了将hostName转换为hostIp的标签类HostName2Ip.java
+-------------------------------------------------------------------------------------
+Version:      1.0.2T44
+SVN Version:  16686
+Release Date: 2010/02/08
+Modify Content:
+1：重构Axis模块：1）编解码；2）UserDetails支持；3）附件处理；4）请求消息头处理；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T43
+SVN Version:  16632
+Release Date: 2010/02/03
+Modify Content:
+1：重构类的配置检查模块；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T42
+SVN Version:  16598
+Release Date: 2010/02/02
+Modify Content:
+1：增加GlobalBeanPostProcessor类，用来检查数据库连接的有效性：1）可达；2）可写；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T41
+SVN Version:  16522
+Release Date: 2010/01/28
+Modify Content:
+1：增加了包com.cintel.frame.auth.init, 增加一个功能项: 初始化所有功能项、角色项、角色功能项；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T40
+SVN Version:  16492
+Release Date: 2010/01/28
+Modify Content:
+1：修改FormatUtils.escapeForSql方法；
+2：修改日志查询模块；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T39
+SVN Version:  15771
+Release Date: 2010/01/14
+Modify Content:
+1：权限管理模块重构；
+2：DB管理模块修改；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T38
+SVN Version:  15621
+Release Date: 2010/01/12
+Modify Content:
+1：角色及角色功能模块重构；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T37
+SVN Version:  15530
+Release Date: 2010/01/12
+Modify Content:
+1：修改HttpUploadService的save方法，增加size参数，支持大文件上传；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T36
+SVN Version:  15281
+Release Date: 2010/01/07
+Modify Content:
+1：修改Log日志模块，增加SessionID，操作结果和类型等属性；
+2：修改Session日志模块，增加appName和区域属性；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T35
+SVN Version:  14265
+Release Date: 2009/12/25
+Modify Content:
+1：ShellCmdExecutor增加getCommandMap()方法
+-------------------------------------------------------------------------------------
+Version:      1.0.2T34
+SVN Version:  13968
+Release Date: 2009/12/23
+Modify Content:
+1：BaseAction
+-------------------------------------------------------------------------------------
+Version:      1.0.2T33
+SVN Version:  13638
+Release Date: 2009/12/18
+Modify Content:
+1：日志管理模块
+-------------------------------------------------------------------------------------
+Version:      1.0.2T32
+SVN Version:  13537
+Release Date: 2009/12/17
+Modify Content:
+1：文件上传管理模块 1）增加Shell执行功能；2）增加对文件名的匹配查询功能；
+2：对全部文件增加了SVN：keywords属性；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T31
+SVN Version:  13317
+Release Date: 2009/12/14
+Modify Content:
+1：增加com.cintel.frame.properties.manage包，用来处理配置管理，功能配置在系统管理员一级；
+2：增加Spring Menu加载时的Log输出；
+3：删除原来的配置文件管理模块；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T30
+SVN Version:  12908
+Release Date: 2009/12/10
+Modify Content:
+1：修改了HttpUploadService的save,get方法，有byte数组改为流的方式；
+2：删除了upload.crs包；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T29
+SVN Version:  12833
+Release Date: 2009/12/09
+Modify Content:
+1：修改IUploadService接口，增加了range方法；
+2：修改了HttpUploadService的save,get方法；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T28
+SVN Version:  12412
+Release Date: 2009/12/03
+Modify Content:
+1：修改IUploadService接口，增加了文件/文件夹信息的获取方法；
+2：增加了HttpUploadService实现，通过HTTP和WebDAV协议实现文件管理，目前支持：保存、删除、读取、重命名操作；
+3：增加了三个Jar包：commons-httpclient-3.1.jar，jakarta-slide-webdavlib-2.0rc1.jar，commons-codec-1.3.jar
+-------------------------------------------------------------------------------------
+Version:      1.0.2T27
+SVN Version:  11430
+Release Date: 2009/11/19
+Modify Content:
+1：修改page,pageSize,totalCount三个分页参数名称统一从displaytag的TableProperties类中来加载；
+2：对应displaytag-cin-T2以上版本；
+3：将分页相关逻辑整理到package:com.cintel.frame.web.page中；
+-------------------------------------------------------------------------------------
+
+Version:      1.0.2T26
+SVN Version:  10182
+Release Date: 2009/10/27
+Modify Content:
+1：修改EasyFtpClient.java中添加了isExist(path)方法，用来判断文件或者文件夹是否已经存在于ftp上
+-------------------------------------------------------------------------------------
+Version:      1.0.2T25
+SVN Version:  10119
+Release Date: 2009/10/25
+Modify Content:
+1：修改ChartCreateTag标签，增加randomStr用来处理图片缓存的问题，保证每次都是新请求；
+2：修改PageBannerTag标签，将记录个数，分页信息与分页请求三部分分开输出，更加灵活；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T24
+SVN Version:  10002
+Release Date: 2009/10/22
+Modify Content:
+1: com.cintel.frame.chart.dataset.CreaterTag 增加doStartTag方法，处理rowKeysInfoList.clear();
+2: formatDate标签修改，增加lastDays与var参数，支持获取当前默认日期；
+
+-------------------------------------------------------------------------------------
+Version:      1.0.2T23
+SVN Version:  9638
+Release Date: 2009/10/15
+Modify Content:
+1: 通过增加对两个属性enableBlank,nullValue的支持,以便在导入excel文件时,能对其中的null列进行转化
+-------------------------------------------------------------------------------------
+Version:      1.0.2T22
+SVN Version:  9541
+Release Date: 2009/10/15
+Modify Content:
+1: frame2.0中RequestSoapHeaderHandler的添加，它用于添加soap头。
+-------------------------------------------------------------------------------------
+Version:      1.0.2T21
+SVN Version:  9442
+Release Date: 2009/10/13
+Modify Content:
+1: frame2.0中MessageTag的修改。
+-------------------------------------------------------------------------------------
+Version:      1.0.2T20
+SVN Version:  8691
+Release Date: 2009/09/23
+Modify Content:
+1: frame2.0中session的ibatis文件修改。
+-------------------------------------------------------------------------------------
+Version:      1.0.2T19
+SVN Version:  8681
+Release Date: 2009/09/23
+Modify Content:
+1: app.admin的ibatis文件修改。
+-------------------------------------------------------------------------------------
+Version:      1.0.2T18
+SVN Version:  8565
+Release Date: 2009/09/22
+Modify Content:
+1: frame.ftp.EasyFtpClient.java的downLoad方法修改
+-------------------------------------------------------------------------------------
+Version:      1.0.2T17
+SVN Version:  8554
+Release Date: 2009/09/22
+Modify Content:
+1: app.admin的ibatis文件修改。
+-------------------------------------------------------------------------------------
+Version:      1.0.2T16
+SVN Version:  8511
+Release Date: 2009/09/22
+Modify Content:
+1: app.admin、app.log、auth.role的ibatis文件修改。
+-------------------------------------------------------------------------------------
+Version:      1.0.2T15
+SVN Version:  8433
+Release Date: 2009/09/19
+Modify Content:
+1: app.log的配置文件Bug修改。
+-------------------------------------------------------------------------------------
+Version:      1.0.2T15
+SVN Version:  8338
+Release Date: 2009/09/16
+Modify Content:
+1：UserInfoUtils类增加userCtxClassIs方法，避免判断某一用户类型时对引用的依赖；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T13
+SVN Version:  8239
+Release Date: 2009/09/15
+Modify Content:
+1: 修改Log日志模块，解决AOP做切面时Spring不能识别父类，私有化方法的注解问题。
+2：通过个LogParametersHolder增加refresh(String logKey, Object ... logTextParas)方法；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T12
+SVN Version:  7351
+Release Date: 2009/09/03
+Modify Content:
+1: 修改UserDetailsImpl类中grantedKeysSet and funcItemList的初始化算法；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T11
+SVN Version:  7289
+Release Date: 2009/09/03
+Modify Content:
+1: FuncItem类增加showInWelcomePage属性，用来标识是否显示在欢迎页，默认为false；
+2: 权限角色判断增加对通配符（AntPattern）的支持，原来只支持完全匹配；
+3：修改了T9与T10的修改内容描述；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T10
+SVN Version:  7246
+Release Date: 2009/09/02
+Modify Content:
+1: 增加了Excel导入及导出通用方法中出错时的提示信息.
+-------------------------------------------------------------------------------------
+Version:      1.0.2T9
+SVN Version:  6843
+Release Date: 2009/08/26
+Modify Content:
+1: 增加了Excel导入及导出的通用方法，
+2：在需要日志记录的方法中调用LogParametersHolder类的refresh方法来保存当前参数信息，在LogOperationAdvice方法中load，使用之后clear
+-------------------------------------------------------------------------------------
+Version:      1.0.2T8
+SVN Version:  6647
+Release Date: 2009/08/21
+Modify Content:
+1: 增加日志记录模块参数的支持，
+   在需要日志记录的方法中调用LogParametersHolder类的refresh方法来保存当前参数信息，在LogOperationAdvice方法中load，使用之后clear
+-------------------------------------------------------------------------------------
+Version:      1.0.2T7
+SVN Version:  6449
+Release Date: 2009/08/18
+Modify Content:
+1: 修改ibatis.xml中原来TreeMap类型的参数为Map；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T6
+SVN Version:  6112
+Release Date: 2009/08/06
+Modify Content:
+1: Md5Digest增加getInstance方法来实例化；
+2：AuthActionAbstractImpl增加对MD5密码加密的功能支持；
+-------------------------------------------------------------------------------------
+Version:      1.0.2T5
+SVN Version:  6053
+Release Date: 2009/08/04
+Modify Content:
+1: UserDetails增加DynamicProperty支持，用来记忆用户的某些动态属性，比如客服支持的当前号码等；
+2：DomainService类增加doSearch方法，方便重载同时在search方法中保留SQL特殊字符的处理逻辑
+-------------------------------------------------------------------------------------
+Version:      1.0.2T4
+SVN Version:  5980
+Release Date: 2009/07/31
+Modify Content:
+1: Menu title tag 增加suffixContent属性，在输出title之后，输出该内容；
+2：BaseDispatchAction 中getParameterMap方法重写，增加getAttribute的支持。当页面跳转时，参数获取用。
+3：BaseDispatchAction 中getJsonConditions方法修改，原来默认处理为空，修改为organizeSearchConditions方法。
+-------------------------------------------------------------------------------------
+Version:      1.0.2T3
+SVN Version:  5641
+Release Date: 2009/07/23
+Modify Content:
+1: web\app\area\ibatis.xml 增加Json查询支持；
+2：FuncItemImpl类重载equals方法，对id和key值进行比较
+3：SpringMenuListFactory类从spring配置文件加载menu菜单时检查id和key重复，并打印error信息
+------------------------------------------------------------------------------------
+Version:      1.0.2T2
+SVN Version:  5286
+Release Date: 2009/07/16
+Modify Content:
+1) 增加日志记录功能支持：提供@LogOperation注解；增加web_log表记录日志信息，支持Log4j来记录信息；
+2）修改ActionForwardKey，增加listForSel属性。在BaseDispatchAction中search方法中增加listForSel判读；
+3）修改struts跳转，将系统默认的jsp转移到/webui/system目录下；
+4) 增加favorite菜单项支持；
+5）将用户授权的key集合改到设置权限时初始化，而不是每次检查权限时。
+------------------------------------------------------------------------------------
+Version:      1.0.2T1
+SVN Version:  4752
+Release Date: 2009/07/07
+Modify Content:
+1) MessageLoaderDbImpl当数据库操作错误时，将异常转换为告警信息输出；
+2）MessageLoaderDbImpl增加loadPropertiesFromDb属性，标识是否从数据库加载properties内容。当系统未建立web_properties表，需要关闭此项配置（设置为false)
+
+3）com.cintel.frame.auth.login.AuthAction 增加configJavaAwtHeadless属性，
+  如果改属性为true，则执行System.setProperty("java.awt.headless", "true"), 否则不执行，默认为false；
+4) 修改com.cintel.frame.auth.login.SysAuthService的getUserContext方法解决system登陆的用户名比较错误；
+
+------------------------------------------------------------------------------------
+Version:      1.0.1
+SVN Version:  4678
+Release Date: 2009/07/06 
+Modify Content:
+1：增加了用户信息序列化，实现了Serializable接口，用来Session的持久化；
+2：将properties的工程项目移到frame，整合为一个project；
+3：将原来Listener方式加载Properties文件的方式，调整为Spring的ServletContextAware模式；
+4：增加了用户登陆的Session记录功能，管理员可以通过Session信息表查询当前登陆的系统用户；
+5：通过SessionAttribute的Listener及Handler模式，实现可以对Session的操作进行权限控制
+   默认系统的Session操作只有：sessionAttributeHandlerMap中声明的，com.cintel.frame.auth.context.SecurityContext、_VERIFY_CODE_SESSION_KEY、org.apache.struts.action.LOCALE
+6：增加了properties的数据库支持。
+7：扩展了fmt：message标签，支持从数据库中获得属性的内容
+   相关类：com.cintel.frame.properties.db.MessageLoaderDbImpl com.cintel.frame.properties.tag.MessageTag
+   

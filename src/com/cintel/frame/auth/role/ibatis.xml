@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "/WEB-INF/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="RoleInfo">
+    <!--  typeAlias -->
+    <typeAlias alias="RoleInfo" type="com.cintel.frame.auth.role.RoleInfoImpl"/>
+    
+    <typeAlias alias="RoleContext" type="com.cintel.frame.auth.user.RoleContext"/>
+
+    <resultMap id="ResultMap-RoleContext" class="RoleContext">
+      <result property="key" column="roleKey" jdbcType="CHAR" javaType="String"/>
+      <result property="title" column="roleTitle" jdbcType="CHAR" javaType="String"/>
+      <result property="loginUrl" column="loginUrl" jdbcType="CHAR" javaType="String"/>
+      <result property="logoutUrl" column="logoutUrl" jdbcType="CHAR" javaType="String"/>
+      <result property="welcomeUrl" column="welcomeUrl" jdbcType="CHAR" javaType="String"/>
+      
+      <result property="roleLevel" column="roleLevel" jdbcType="int" javaType="int"/>
+      <result property="roleGroup" column="roleGroup" jdbcType="int" javaType="int"/>
+      
+      <result property="description" column="description" jdbcType="CHAR" javaType="String"/>
+    </resultMap>
+    
+    <resultMap id="ResultMap-RoleInfo" class="RoleInfo">
+      <result property="roleId" column="roleId" jdbcType="CHAR" javaType="String"/>
+
+      <result property="roleTitle" column="roleTitle" jdbcType="CHAR" javaType="String"/>
+      <result property="roleTypeKey" column="roleTypeKey" jdbcType="CHAR" javaType="String"/>
+      <result property="description" column="description" jdbcType="CHAR" javaType="String"/>
+      
+      <result property="roleType.roleTitle" column="roleTypeTitle" jdbcType="CHAR" javaType="String"/>
+      
+      <result property="roleType.loginUrl" column="loginUrl" jdbcType="CHAR" javaType="String"/>
+      <result property="roleType.logoutUrl" column="logoutUrl" jdbcType="CHAR" javaType="String"/>
+      <result property="roleType.welcomeUrl" column="welcomeUrl" jdbcType="CHAR" javaType="String"/>
+      
+      <result property="roleType.roleLevel" column="roleLevel" jdbcType="int" javaType="int"/>
+      <result property="roleType.roleGroup" column="roleGroup" jdbcType="int" javaType="int"/>
+    </resultMap>
+
+	<resultMap id="ResultMap-JsonOption" class="com.cintel.frame.web.action.JsonOption">
+		<result property="value" column="roleId" javaType="String" jdbcType="CHAR"/>
+		<result property="label" column="roleTitle" javaType="String" jdbcType="CHAR"/>
+	</resultMap>
+	
+    <sql id="selectBody-RoleInfo"> 
+        roleInfo.role_id as roleId
+        ,roleInfo.role_title as roleTitle
+        ,roleInfo.role_type_key as roleTypeKey
+        ,roleInfo.description as description
+
+        ,roleTypeInfo.role_title as roleTypeTitle
+
+        ,roleTypeInfo.login_url as loginUrl
+        ,roleTypeInfo.logout_url as logoutUrl
+        ,roleTypeInfo.welcome_url as welcomeUrl
+        
+        ,roleTypeInfo.role_level as roleLevel
+        ,roleTypeInfo.role_group as roleGroup
+    </sql>
+    
+    <sql id="selectFrom-RoleInfo">
+    	from web_role roleInfo
+    	left join web_role_type roleTypeInfo on roleInfo.role_type_key = roleTypeInfo.role_key
+    </sql>
+    
+	<insert id="insert" parameterClass="RoleInfo">
+		insert into web_role(
+		    role_id
+			,role_title
+			,role_type_key
+			,description
+		)
+		values(
+		     #roleId#
+			,#roleTitle#
+			,#roleTypeKey#
+			,#description#
+		)
+	</insert>
+    
+    <select id="list" resultMap="ResultMap-RoleInfo">
+      select
+          <include refid="selectBody-RoleInfo"/>
+          <include refid="selectFrom-RoleInfo"/>
+    </select>
+
+    <select id="listJsonOption" resultMap="ResultMap-JsonOption">
+      select
+          <include refid="selectBody-RoleInfo"/>
+          <include refid="selectFrom-RoleInfo"/>
+        where 1=1
+      	<isNotEmpty property="roleLevel" prepend=" and ">roleTypeInfo.role_level > #roleLevel# </isNotEmpty>
+      	<isNotEmpty property="roleGroup" prepend=" and ">roleTypeInfo.role_group = #roleGroup# </isNotEmpty>
+    </select>
+    
+    <select id="search" resultMap="ResultMap-RoleInfo" parameterClass="java.util.Map">
+        select
+          <include refid="selectBody-RoleInfo"/>
+          <include refid="selectFrom-RoleInfo"/>
+        where 1=1
+            <isNotEmpty property="searchColumn" prepend=" and ">roleInfo.$searchColumn$ like '%$key$%'</isNotEmpty>
+    </select>
+
+	<select id="checkRoleCount" resultClass="Integer" parameterClass="RoleInfo">
+		select count(role_id) roleCount from web_role where role_title = #roleTitle# or role_id = #roleId#
+	</select>
+	
+	<select id="get" resultMap="ResultMap-RoleInfo" parameterClass="RoleInfo">
+		select
+          <include refid="selectBody-RoleInfo"/>
+          <include refid="selectFrom-RoleInfo"/>
+		where role_id = #oid#
+	</select>
+	
+	<delete id="delete" parameterClass="RoleInfo">
+		delete from web_role where role_id = #oid#
+	</delete>
+	
+	<update id="update" parameterClass="RoleInfo">
+		update web_role
+		set
+			role_title = #roleTitle#,
+			description = #description#
+		where 
+			role_id = #oid#
+	</update>
+	
+	<!-- using the sql for inital. -->
+	<delete id="deleteAll" parameterClass="String">
+		delete from web_role 
+	</delete>
+	
+	<select id="loadRoleContextWithRoleId" resultMap="ResultMap-RoleContext" parameterClass="String">
+		select
+			roleInfo.role_id as roleKey
+			,roleInfo.role_title as roleTitle
+	        
+	        ,roleInfo.description as description
+
+	        ,roleTypeInfo.login_url as loginUrl
+	        ,roleTypeInfo.logout_url as logoutUrl
+	        ,roleTypeInfo.welcome_url as welcomeUrl
+	        
+	        ,roleTypeInfo.role_level as roleLevel
+	        ,roleTypeInfo.role_group as roleGroup
+          <include refid="selectFrom-RoleInfo"/>
+		where role_id = #value#
+	</select>
+</sqlMap>

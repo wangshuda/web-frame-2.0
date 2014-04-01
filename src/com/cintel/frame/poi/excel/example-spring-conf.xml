@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+    "/WEB-INF/dtd/spring-beans.dtd">
+<beans>
+	<bean name="CorpUserExcelWorkSheetInfo" class="com.cintel.frame.poi.excel.WorkSheetInfo">
+		<property name="withTitle" value="true"/>
+		<property name="commandClass">
+			<value>com.cintel.www.ipc.corp.user.CorpUser</value>
+		</property>
+		<property name="columnInfoList">
+			<set>
+				<bean name="telepPoneNumber" class="com.cintel.frame.poi.excel.ColumnInfo">
+					<property name="index" value="0"/>
+					<property name="propertyName" value="ipcUserInfoContext.telephonenumber"/>
+					<property name="title" value="电话号码"/>
+				</bean>
+				<bean name="telepPoneNumber" class="com.cintel.frame.poi.excel.ColumnInfo">
+					<property name="index" value="1"/>
+					<property name="propertyName" value="ipcUserInfoContext.pnpnumber"/>
+					<property name="title" value="分机号"/>
+				</bean>
+			</set>
+		</property>
+	</bean>
+	
+	<bean name="CorpUserExcelService" class="com.cintel.frame.poi.excel.ExcelServiceImpl">
+		<property name="workSheetInfo">
+			<ref bean="CorpUserExcelWorkSheetInfo" />
+		</property>
+	</bean>
+</beans>

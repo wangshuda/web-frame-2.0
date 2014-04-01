@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "/WEB-INF/dtd/sql-map-2.dtd">
+<!-- fileLocation: com/cintel/frame/log/db/ibatis.xml -->
+
+<sqlMap namespace="LogContext">
+    <!--  typeAlias -->
+    <typeAlias alias="LogContext" type="com.cintel.frame.log.LogContextBean"/>
+    
+    <resultMap id="ResultMap" class="LogContext">
+      <result property="streamNumber" column="streamNumber" jdbcType="CHAR" />
+      <result property="logKey" column="logKey" jdbcType="CHAR" />
+      <result property="logText" column="logText" jdbcType="CHAR" />
+      <result property="operateType" column="operateType" />
+      <result property="operateResult" column="operateResult" />
+      <result property="logDateTime" column="logDateTime" jdbcType="CHAR" />
+      <result property="userName" column="userName" jdbcType="CHAR" />
+      <result property="userRoleKey" column="userRoleKey" jdbcType="CHAR" />
+      <result property="userRoleName" column="userRoleName" jdbcType="CHAR" />
+      <result property="authAreaCode" column="authAreaCode" jdbcType="CHAR" />
+      <result property="requestIp" column="requestIp" jdbcType="CHAR" />
+      <result property="sessionId" column="sessionId" jdbcType="CHAR" />
+      <result property="key1" column="key1" jdbcType="CHAR"/>
+      <result property="key2" column="key2" jdbcType="CHAR"/>
+      <result property="key3" column="key3" jdbcType="CHAR"/>
+      <result property="key4" column="key4" jdbcType="CHAR"/>
+      <result property="key5" column="key5" jdbcType="CHAR"/>
+    </resultMap>
+
+
+    <sql id="selectBody"> 
+        operateLog.stream_number as streamNumber
+        ,operateLog.log_key as logKey
+        ,operateLog.operate_type as operateType
+        ,operateLog.operate_result as operateResult
+        ,operateLog.log_text as logText
+        ,operateLog.log_date_time as logDateTime
+        ,operateLog.user_name as userName
+        ,operateLog.user_role_key as userRoleKey
+        ,operateLog.user_role_name as userRoleName
+        ,operateLog.auth_area_code as authAreaCode
+        ,operateLog.request_ip as requestIp
+        ,operateLog.session_id as sessionId
+        ,operateLog.key1 as key1
+        ,operateLog.key2 as key2
+        ,operateLog.key3 as key3
+        ,operateLog.key4 as key4
+        ,operateLog.key5 as key5
+    </sql>
+
+    <insert id="InsertLogContext" parameterClass="LogContext">
+        insert into web_operate_log(
+            stream_number
+            ,log_key
+            ,operate_type
+            ,operate_result
+            ,log_text
+            ,log_date_time
+            ,user_name
+            ,user_role_key
+            ,user_role_name
+            ,auth_area_code
+            ,request_ip
+            ,session_id
+            ,key1
+            ,key2
+            ,key3
+            ,key4
+            ,key5
+        )
+        values(
+            #streamNumber#
+            ,#logKey#
+            ,#operateType#
+            ,#operateResult#
+            ,#logText#
+            ,#logDateTime#
+            ,#userName#
+            ,#userRoleKey#
+            ,#userRoleName#
+            ,#authAreaCode#
+            ,#requestIp#
+            ,#sessionId#
+            ,#key1#
+            ,#key2#
+            ,#key3#
+            ,#key4#
+            ,#key5#
+        )
+    </insert>
+    
+    <select id="list" resultMap="ResultMap">
+      select
+          <include refid="selectBody"/>
+      from web_operate_log operateLog
+    </select>
+    
+    <select id="search" resultMap="ResultMap" parameterClass="java.util.Map">
+        select
+            <include refid="selectBody"/>
+        from web_operate_log operateLog       
+        where 1=1
+            <isNotEmpty property="searchColumn" prepend=" and ">operateLog.$searchColumn$ like '%$key$%'</isNotEmpty>
+            <isNotEmpty property="startDateTime" prepend=" and ">operateLog.log_date_time >= #startDateTime#</isNotEmpty>
+            <isNotEmpty property="endDateTime" prepend=" and ">#endDateTime# >= operateLog.log_date_time</isNotEmpty>
+            <isNotEmpty property="userRoleKey" prepend=" and ">operateLog.user_role_key = #userRoleKey#</isNotEmpty>
+            <isNotEmpty property="operateType" prepend=" and ">operateLog.operate_type = #operateType#</isNotEmpty>
+            <isNotEmpty property="operateResult" prepend=" and ">operateLog.operate_result = #operateResult#</isNotEmpty>
+            <isNotEmpty property="authAreaCode" prepend=" and ">operateLog.auth_area_code = #authAreaCode#</isNotEmpty>
+            <isNotEmpty property="streamNoList">
+	   		<iterate property="streamNoList" prepend=" and " conjunction="or" open="(" close=")">
+	  			operateLog.auth_area_code = #streamNoList[]#
+	  		</iterate>
+	 	  	</isNotEmpty>
+            <isNotEmpty property="key1" prepend=" and ">operateLog.key1 = #key1#</isNotEmpty>
+            <isNotEmpty property="key2" prepend=" and ">operateLog.key2 = #key2#</isNotEmpty>
+            <isNotEmpty property="key3" prepend=" and ">operateLog.key3 = #key3#</isNotEmpty>
+            <isNotEmpty property="key4" prepend=" and ">operateLog.key4 = #key4#</isNotEmpty>
+            <isNotEmpty property="key5" prepend=" and ">operateLog.key5 = #key5#</isNotEmpty>
+        order by operateLog.log_date_time desc
+    </select>
+
+    <select id="get" resultMap="ResultMap" parameterClass="LogContext">
+        select
+          <include refid="selectBody"/>
+        from web_operate_log operateLog
+        where
+            operateLog.stream_number=#streamNumber#
+    </select>
+
+    <delete id="delete"  parameterClass="LogContext">
+        delete 
+        from web_operate_log
+        where
+             stream_number=#streamNumber#
+    </delete>
+    
+    <delete id="batchDelete" parameterClass="java.util.Map">
+		delete 
+		from web_operate_log 
+		where 0=1
+		<iterate property="selectedIdList">
+			or (stream_number = #selectedIdList[]#)
+	  	</iterate>
+	</delete>
+</sqlMap>

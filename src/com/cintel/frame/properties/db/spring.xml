@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"/WEB-INF/dtd/spring-beans.dtd">
+<beans>
+	<bean id="DbPropertyDao" class="com.cintel.frame.webui.DomainDao">
+		<property name="sqlMapClient">
+			<ref bean="webSqlMapClient" />
+		</property>
+		<property name="nameSpace">
+			<value>DbProperty</value>
+		</property>
+	</bean>
+	
+	<bean id="DbPropertyService" class="com.cintel.frame.webui.DomainService">
+		<property name="dao">
+			<ref bean="DbPropertyDao" />
+		</property>
+	</bean>
+	
+	<bean name="DbPropertyValidator" class="com.cintel.frame.properties.db.Validator">
+        <property name="needValidateNames" value="insert,update"/>
+	</bean>
+	
+    <bean name="/dbProperty" class="com.cintel.frame.web.action.BaseDispatchAction" singleton="false">
+    	<property name="service">
+    		<ref bean="DbPropertyService" />
+    	</property>
+        <property name="commandClass">
+        	<value>com.cintel.frame.properties.db.DbProperty</value>
+		</property>
+    	<property name="actionForwardKey" >
+    		<ref bean="ActionForwardKey" />
+    	</property>
+    	<property name="validator" >
+    		<ref bean="DbPropertyValidator" />
+    	</property>
+    </bean>
+</beans>

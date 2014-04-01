@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"/WEB-INF/dtd/spring-beans.dtd">
+<beans>
+	<!-- Attention  -->
+    <bean id="MenuInitService" class="com.cintel.frame.auth.menu.init.MenuInitService" singleton="false">
+    	<property name="menuFromSpringService">
+			<ref bean="MenuFromSpringService"/>
+		</property>
+    	<property name="funcItemDao">
+			<ref bean="FuncItemDao"/>
+		</property>
+    	<property name="roleFuncInfoDao">
+			<ref bean="RoleFuncInfoDao"/>
+		</property>
+		<property name="funcAuthUrlPatternDao">
+			<ref bean="FuncAuthUrlPatternDao" />
+		</property>
+    </bean>
+    
+    <bean name="/menuInit" class="com.cintel.frame.auth.menu.init.MenuInitAction" singleton="false">
+    	<property name="menuInitService">
+			<ref bean="MenuInitService"/>
+		</property>
+    </bean>
+	
+</beans>

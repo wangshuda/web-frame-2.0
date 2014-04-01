@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "/WEB-INF/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="FuncItem">
+    <!--  typeAlias -->
+    <typeAlias alias="FuncItem" type="com.cintel.frame.auth.func.FuncItemImpl"/>
+    
+    <resultMap id="ResultMap" class="FuncItem">
+      <result property="id" column="id" jdbcType="integer" />
+      <result property="parentId" column="parentId" jdbcType="integer" />
+      <result property="key" column="func_key" jdbcType="CHAR" javaType="String"/>
+      <result property="requestUrl" column="requestUrl" jdbcType="CHAR" javaType="String" />
+      <result property="authUrlPattern" column="authUrlPattern" jdbcType="CHAR" javaType="String" />
+      <result property="title" column="title" jdbcType="CHAR" javaType="String" />
+      <result property="status" column="status" jdbcType="CHAR" javaType="String" />
+      <result property="description" column="description" jdbcType="CHAR" javaType="String" />
+    </resultMap>
+
+    <sql id="selectBody">
+        funcItemInfo.id as id
+        ,funcItemInfo.parent_id as parentId
+        ,funcItemInfo.func_key as func_key
+        ,funcItemInfo.request_url as requestUrl
+        ,funcItemInfo.auth_url_pattern as authUrlPattern
+        ,funcItemInfo.title as title
+        ,funcItemInfo.status as status
+        ,funcItemInfo.description as description
+    </sql>
+        
+	<insert id="insert" parameterClass="FuncItem">
+		insert into web_func(
+			id,
+			parent_id,
+			func_key,
+			request_url,
+			title,
+			status,
+			description,
+			menu_order_id,
+			auth_url_pattern
+		)
+		values(
+			#id#,
+			#parentId#,
+			#key#,
+			#requestUrl#,
+			#title#,
+			#status#,
+			#description#,
+			#menuOrderId#,
+			#authUrlPattern#
+		)
+	</insert>
+
+	<select id="search" resultMap="ResultMap" parameterClass="java.util.Map">
+		select
+			<include refid="selectBody" />
+		from web_func funcItemInfo
+		where 1 = 1
+			<dynamic prepend="">
+				<isNotEmpty property="searchColumn" prepend=" and ">$searchColumn$ like '%$key$%'</isNotEmpty>
+				<isNotEmpty property="id" prepend=" and ">id = #id#</isNotEmpty>
+				<isNotEmpty property="parentId" prepend=" and ">parent_id = #parentId#</isNotEmpty>
+			</dynamic>
+      order by
+      	 funcItemInfo.menu_order_id desc, funcItemInfo.parent_id asc, funcItemInfo.id asc
+	</select>
+
+	<delete id="delete" parameterClass="FuncItem">
+		delete from web_func where id = #oid#
+	</delete>
+
+	<delete id="deleteAll" parameterClass="String">
+		delete from web_func
+	</delete>
+	
+	<update id="update" parameterClass="FuncItem">
+		update web_func set
+			parent_id = #parentId#,
+			func_key = #key#,
+			request_url = #requestUrl#,
+			title = #title#,
+			status = #status#,
+			description = #description#,
+			auth_url_pattern = #authUrlPattern#,
+			menu_order_id = #menuOrderId#
+		where 
+			id = #oid#
+	</update>
+	
+	<select id="get" resultMap="ResultMap" parameterClass="FuncItem">
+		select
+			<include refid="selectBody" />
+		from web_func funcItemInfo
+		where
+			id = #id#
+	</select>
+
+	<select id="getFuncInfo" resultMap="ResultMap" parameterClass="String">
+		select
+			<include refid="selectBody" />
+		from web_func funcItemInfo
+		where
+			id = #value#
+	</select>
+	
+	<select id="checkFuncId" resultClass="Integer" parameterClass="String">
+		select
+			count(id) funcCount
+		from
+			web_func
+		where
+			id = #id#
+	</select>
+</sqlMap>

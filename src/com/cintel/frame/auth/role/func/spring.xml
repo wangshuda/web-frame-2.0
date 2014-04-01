@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"/WEB-INF/dtd/spring-beans.dtd">
+<beans>
+	<bean id="RoleFuncInfoDao" class="com.cintel.frame.webui.DomainDao">
+		<property name="sqlMapClient">
+			<ref bean="webSqlMapClient" />
+		</property>
+		<property name="nameSpace">
+			<value>RoleFuncItem</value>
+		</property>
+	</bean>
+	
+	<bean id="RoleFuncInfoService" class="com.cintel.frame.webui.DomainService">
+		<property name="dao">
+			<ref bean="RoleFuncInfoDao" />
+		</property>
+	</bean>
+
+</beans>

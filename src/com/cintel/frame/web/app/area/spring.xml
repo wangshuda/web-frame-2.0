@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+    "/WEB-INF/dtd/spring-beans.dtd">
+<beans>
+    <bean id="AreaInfoDao" class="com.cintel.frame.webui.DomainDao">
+        <property name="sqlMapClient">
+            <ref bean="webSqlMapClient" />
+        </property>
+        <property name="nameSpace">
+            <value>AreaInfo</value>
+        </property>
+    </bean>
+
+    <bean id="AreaInfoService" class="com.cintel.frame.webui.DomainService">
+        <property name="dao">
+            <ref bean="AreaInfoDao" />
+        </property>
+    </bean>
+    <!-- Forward -->
+    <bean name="AreaInfoActionForwardKey" class="com.cintel.frame.web.action.ActionForwardKey">
+    </bean>
+    
+    <bean name="/areaInfo" class="com.cintel.frame.web.app.area.AreaInfoAction" singleton="false">
+        <property name="service">
+            <ref bean="AreaInfoService" />
+        </property>
+        <property name="commandClass">
+            <value>com.cintel.frame.web.app.area.AreaInfo</value>
+        </property>
+        <property name="actionForwardKey" >
+            <ref bean="ActionForwardKey" />
+        </property>
+    </bean>
+</beans>

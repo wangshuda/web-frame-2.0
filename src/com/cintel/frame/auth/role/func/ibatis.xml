@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "/WEB-INF/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="RoleFuncItem">
+    <!--  typeAlias -->
+    <typeAlias alias="FuncItem" type="com.cintel.frame.auth.func.FuncItemImpl" />
+  
+    <resultMap id="FuncItemResultMap" class="FuncItem">
+      <result property="id" column="id" jdbcType="integer" />
+      <result property="parentId" column="parentId" jdbcType="integer" />
+      <result property="key" column="func_key" jdbcType="CHAR" javaType="String"/>
+      <result property="requestUrl" column="requestUrl" jdbcType="CHAR" javaType="String" />
+      <result property="authUrlPattern" column="authUrlPattern" jdbcType="CHAR" javaType="String" />
+      <result property="title" column="title" jdbcType="CHAR" javaType="String" />
+      <result property="status" column="status" jdbcType="CHAR" javaType="String" />
+      <result property="description" column="description" jdbcType="CHAR" javaType="String" />
+      <result property="authUrlPatternList" javaType="java.util.ArrayList" select="RoleFuncItem.getAuthUrlPatternList" column="{funcId=id}" />
+    </resultMap>
+    
+    <resultMap id="FuncItemsResultMap-WithRole" class="FuncItem" extends="FuncItemResultMap">
+	  <result property="subItemsList" column="{parentId=id, roleId=roleId}" select="RoleFuncItem.getSubItemsList" />
+    </resultMap>
+
+    <sql id="selectBody">
+        funcItemInfo.id as id
+        ,funcItemInfo.parent_id as parentId
+        ,funcItemInfo.func_key as func_key
+        ,funcItemInfo.request_url as requestUrl
+        ,funcItemInfo.auth_url_pattern as authUrlPattern
+        ,funcItemInfo.title as title
+        ,funcItemInfo.status as status
+        ,funcItemInfo.description as description
+    </sql>
+    
+    <sql id="selectFrom">
+      from web_role_func roleFuncInfo
+      	left join web_func funcItemInfo on roleFuncInfo.func_id = funcItemInfo.id
+      	left join web_role roleInfo on roleFuncInfo.role_id = roleInfo.role_id
+    </sql>
+
+    <select id="RoleFuncItem.getAuthUrlPatternList" resultClass="String">
+    	select
+    		auth_url_pattern
+    	from web_func_pattern
+    	where func_id=#funcId#
+    </select>
+
+    <select id="listFuncItemByRoleIdAndParentId" resultMap="FuncItemsResultMap-WithRole" parameterClass="java.util.Map">
+      select
+          <include refid="selectBody"/>
+        ,trim(roleInfo.role_id) as roleId
+        
+          <include refid="selectFrom"/>
+      where
+      	 roleInfo.role_id = #roleId#
+      	 and funcItemInfo.parent_id = #parentId#
+      order by
+      	 funcItemInfo.menu_order_id desc
+    </select>
+    
+    <select id="listFuncItemByRoleId" resultMap="FuncItemsResultMap-WithRole" parameterClass="String">
+      select
+          <include refid="selectBody"/>
+        ,trim(roleInfo.role_id) as roleId
+        
+          <include refid="selectFrom"/>
+      where
+      	 roleInfo.role_id = #value#
+      	 and funcItemInfo.parent_id = -1
+      order by
+      	 funcItemInfo.menu_order_id desc
+    </select>
+    
+    <select id="getSubItemsList" resultMap="FuncItemResultMap">
+      select
+          <include refid="selectBody"/>       		
+          <include refid="selectFrom"/>
+      where 
+      		funcItemInfo.parent_id = #parentId#
+      		and roleFuncInfo.role_id = #roleId#
+      order by 
+      		funcItemInfo.menu_order_id desc
+    </select>
+    
+    <!-- List all func items, using roleUsedFlag to identify that the func has granted to the role or not. 1 means granted  -->
+    
+    <typeAlias alias="FuncItemWithUsedInfo" type="com.cintel.frame.auth.role.func.FuncItemWithUsedInfo" />
+    
+    <resultMap id="FuncItemResultMap-WithUsedInfo-Sub" class="FuncItemWithUsedInfo">
+      <result property="id" column="id" jdbcType="integer" />
+      <result property="parentId" column="parentId" jdbcType="integer" />
+      <result property="key" column="func_key" jdbcType="CHAR" javaType="String"/>
+      <result property="requestUrl" column="requestUrl" jdbcType="CHAR" javaType="String" />
+      <result property="authUrlPattern" column="authUrlPattern" jdbcType="CHAR" javaType="String" />
+      <result property="title" column="title" jdbcType="CHAR" javaType="String" />
+      <result property="status" column="status" jdbcType="CHAR" javaType="String" />
+      <result property="description" column="description" jdbcType="CHAR" javaType="String" />
+      <result property="roleUsedFlag" column="roleUsedFlag" jdbcType="Integer" javaType="int" />
+    </resultMap>
+    
+    <resultMap id="FuncItemsResultMap-WithUsedInfo" class="FuncItemWithUsedInfo" extends="FuncItemResultMap-WithUsedInfo-Sub">
+	  <result property="subItemsList" column="{parentId=id, roleId=roleId}" select="RoleFuncItem.getSubItemsList-WithUsedInfo" />
+    </resultMap>
+    
+    <select id="listAllFuncItems" resultMap="FuncItemsResultMap-WithUsedInfo" parameterClass="String">
+      select
+       <include refid="selectBody"/>
+        ,(
+        	select count(id) from web_role_func roleFuncInfo 
+        	where roleFuncInfo.func_id = funcItemInfo.id and roleFuncInfo.role_id = #value#
+        	) as roleUsedFlag
+        	
+        , '$value$' as roleId
+ 	  from v_web_role_type_func funcItemInfo
+      left join web_role roleInfo on roleInfo.role_id = #value# 
+      where
+      	 funcItemInfo.parent_id = -1
+      	 and roleInfo.role_type_key = funcItemInfo.role_key
+      order by
+      	 funcItemInfo.menu_order_id desc
+    </select>
+
+    <select id="getSubItemsList-WithUsedInfo" resultMap="FuncItemResultMap-WithUsedInfo-Sub">
+      select
+		<include refid="selectBody"/>
+        ,(
+        	select count(id) from web_role_func roleFuncInfo 
+        	where roleFuncInfo.func_id = funcItemInfo.id and roleFuncInfo.role_id = #roleId#
+        	) as roleUsedFlag
+ 	  from v_web_role_type_func funcItemInfo
+      left join web_role roleInfo on roleInfo.role_id = #roleId# 
+      where 
+      		funcItemInfo.parent_id = #parentId#
+      		and roleInfo.role_type_key = funcItemInfo.role_key
+      order by
+      	 funcItemInfo.menu_order_id desc
+    </select>
+    
+    <!--  -->
+    <typeAlias alias="RoleFuncItem" type="com.cintel.frame.auth.role.func.RoleFunc" />
+	
+	<delete id="delete" parameterClass="String">
+		delete from web_role_func where id = #value#
+	</delete>
+	
+	<delete id="deleteByRoleId" parameterClass="String">
+		delete from web_role_func where role_id = #value#
+	</delete>
+
+	<insert id="insert" parameterClass="RoleFuncItem">
+		insert into web_role_func(
+			role_id,
+			func_id
+		)
+		values(
+			#roleId#,
+			#funcId#
+		)
+	</insert>
+</sqlMap>

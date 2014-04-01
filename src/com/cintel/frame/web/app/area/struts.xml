@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" 
+	"/WEB-INF/dtd/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="AreaInfoForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="command" type="com.cintel.frame.web.app.area.AreaInfo"/>
+		</form-bean>
+	</form-beans>
+	
+	<action-mappings>
+		<action path="/areaInfo" type="org.springframework.web.struts.DelegatingActionProxy" name="AreaInfoForm" scope="request" parameter="method" validate="false">
+			<forward name="list" path="/areaInfo.do?method=search"/>
+			<forward name="edit" path="/webui/system/areaInfo/edit.jsp"/>
+			<forward name="search" path="/webui/system/areaInfo/list.jsp"/>
+		</action>
+	</action-mappings>
+</struts-config>

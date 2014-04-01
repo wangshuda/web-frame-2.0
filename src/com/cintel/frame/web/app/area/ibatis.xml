@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "/WEB-INF/dtd/sql-map-2.dtd">
+<!-- fileLocation: com/cintel/frame/web/app/area/ibatis.xml -->
+
+<sqlMap namespace="AreaInfo">
+    <!--  typeAlias -->
+    <typeAlias alias="AreaInfo" type="com.cintel.frame.web.app.area.AreaInfo"/>
+    
+    <resultMap id="ResultMap" class="AreaInfo">
+      <result property="areaCode" column="areaCode" jdbcType="Char" />
+      <result property="areaName" column="areaName" jdbcType="Char" />
+    </resultMap>
+    
+	<resultMap id="ResultMap-JsonOption" class="com.cintel.frame.web.action.JsonOption">
+		<result property="value" column="areaCode" javaType="String" jdbcType="CHAR"/>
+		<result property="label" column="areaName" javaType="String" jdbcType="CHAR"/>
+	</resultMap>
+
+    <sql id="selectBody"> 
+        areaInfo.area_code as areaCode
+        ,areaInfo.area_name as areaName
+    </sql>
+
+    <insert id="insert" parameterClass="AreaInfo">
+        insert into web_area(
+            area_code
+            ,area_name
+        )
+        values(
+            #areaCode#
+            ,#areaName#
+        )
+    </insert>
+    
+    <select id="list" resultMap="ResultMap">
+      select
+          <include refid="selectBody"/>
+      from web_area areaInfo
+    </select>
+
+    <select id="listJsonOption" resultMap="ResultMap-JsonOption">
+      select
+          <include refid="selectBody"/>
+      from web_area areaInfo
+    </select>
+    
+    <select id="search" resultMap="ResultMap" parameterClass="java.util.Map">
+        select
+            <include refid="selectBody"/>
+        from web_area areaInfo
+        where 1=1
+            <isNotEmpty property="searchColumn" prepend=" and ">areaInfo.$searchColumn$ like '%$key$%'</isNotEmpty>
+    </select>
+
+    <select id="get" resultMap="ResultMap" parameterClass="AreaInfo">
+        select
+          <include refid="selectBody"/>
+        from web_area areaInfo
+        where
+            areaInfo.area_code=#areaCode#
+        
+    </select>
+
+    <update id="update" parameterClass="AreaInfo">
+        update web_area areaInfo
+        set
+            area_name=#areaName#
+         where
+              areaInfo.area_code=#areaCode#
+        
+    </update>
+  
+    <delete id="delete"  parameterClass="AreaInfo">
+        delete 
+        from web_area
+        where
+             area_code=#areaCode#
+        
+    </delete>
+</sqlMap>

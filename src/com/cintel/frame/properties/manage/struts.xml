@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" 
+	"/WEB-INF/dtd/struts-config_1_2.dtd">
+
+<struts-config>	
+	<action-mappings>
+		<action path="/propertiesManage" type="org.springframework.web.struts.DelegatingActionProxy" name="" scope="request" parameter="method" validate="false">
+			<forward name="search" path="/webui/system/properties/list.jsp"/>
+			<forward name="readConfig" path="/webui/system/properties/editConfig.jsp"/>
+		</action>
+	</action-mappings>
+</struts-config>

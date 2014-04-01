@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" 
+	"/WEB-INF/dtd/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="RoleTypeForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="command" type="com.cintel.frame.auth.role.type.RoleType"/>
+		</form-bean>
+	</form-beans>
+	
+	<action-mappings>
+		<action path="/roleType" type="org.springframework.web.struts.DelegatingActionProxy" name="RoleTypeForm" scope="request" parameter="method" validate="false">
+			<forward name="list" path="/roleType.do?method=search"/>
+			<forward name="edit" path="/webui/system/roleType/edit.jsp"/>
+			<forward name="search" path="/webui/system/roleType/list.jsp"/>
+		</action>
+	</action-mappings>
+</struts-config>

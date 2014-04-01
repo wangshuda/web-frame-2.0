@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+    "/WEB-INF/dtd/spring-beans.dtd">
+<beans>	
+    <bean name="/propertiesManage" class="com.cintel.frame.properties.manage.PropertiesManageAction" singleton="false">
+        <property name="propertiesManager">
+            <ref bean="PropertiesManager" />
+        </property>
+        <property name="actionForwardKey">
+            <ref bean="ActionForwardKey" />
+        </property>
+    </bean>
+    
+    <bean name="PropertiesManager" class="com.cintel.frame.properties.manage.PropertiesManagerImpl" singleton="false">
+        <property name="propertiesFileCtxMap">
+            <ref bean="PropertiesFileCtxMap" />
+        </property>
+    </bean>
+    
+    <bean name="PropertiesFileCtxMap" class="com.cintel.frame.properties.manage.PropertiesFileCtxMapFactory" singleton="false"/>
+    
+</beans>

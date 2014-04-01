@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "/WEB-INF/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="DbProperty">
+    <!--  typeAlias -->
+    <typeAlias alias="DbProperty" type="com.cintel.frame.properties.db.DbProperty"/>
+    
+    <resultMap id="ResultMap" class="DbProperty">
+      <result property="id" column="id" jdbcType="serial" />
+      <result property="v_key" column="v_key" jdbcType="CHAR" />
+      <result property="value" column="value" jdbcType="CHAR" />
+      <result property="description" column="description" jdbcType="CHAR" />
+      <result property="status" column="status"  />
+      <result property="cacheFlush" column="cacheFlush"  />
+    </resultMap>
+
+    <sql id="selectBody"> 
+        propertyInfo.id as id
+        ,propertyInfo.v_key as v_key
+        ,propertyInfo.value as value
+        ,propertyInfo.description as description
+        ,propertyInfo.status as status
+        ,propertyInfo.cache_flag as cacheFlush
+    </sql>
+    
+	<insert id="insert" parameterClass="DbProperty">
+		insert into web_properties(
+			v_key
+			,value
+			,description
+			,status
+			,cache_flag
+		)
+		values(
+			#v_key#
+			,#value#
+			,#description#
+			,#status#
+			,#cacheFlush#
+		)
+	</insert>
+	
+     <select id="isUnique" resultClass="Integer" parameterClass="DbProperty">
+        select
+          count(v_key) as uniqueCount
+        from  web_properties dbProperty
+        where
+            dbProperty.v_key=#v_key#
+    </select>
+    
+
+    <select id="list" resultMap="ResultMap">
+      select
+          <include refid="selectBody"/>
+      from web_properties propertyInfo
+    </select>
+
+    <select id="listProperties" resultMap="ResultMap">
+      select
+          <include refid="selectBody"/>
+      from web_properties propertyInfo
+      where propertyInfo.status=0
+    </select>
+    
+    
+    <select id="search" resultMap="ResultMap" parameterClass="java.util.Map">
+        select
+            <include refid="selectBody"/>
+        from web_properties propertyInfo
+        where 1=1
+            <isNotEmpty property="searchColumn" prepend=" and ">propertyInfo.$searchColumn$ like '%$key$%'</isNotEmpty>
+    </select>
+      
+    <select id="get" resultMap="ResultMap" parameterClass="DbProperty">
+        select
+          <include refid="selectBody"/>
+        from web_properties propertyInfo
+        where
+		    propertyInfo.v_key=#v_key#
+    </select>
+
+    <select id="getMessage" resultClass="String" parameterClass="String">
+        select
+          value
+        from web_properties propertyInfo
+        where
+		    propertyInfo.v_key=#value#
+		
+    </select>
+      
+    <update id="update" parameterClass="DbProperty">
+        update web_properties
+        set
+			value=#value#
+			,description=#description#
+			,status=#status#
+			,cache_flag=#cacheFlush#
+         where
+		    v_key=#v_key#
+    </update>
+  
+    <delete id="delete"  parameterClass="DbProperty">
+        delete 
+        from web_properties
+        where
+		    v_key=#v_key#
+    </delete>
+</sqlMap>

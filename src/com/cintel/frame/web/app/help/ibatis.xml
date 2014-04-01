@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "/WEB-INF/dtd/sql-map-2.dtd">
+<!-- fileLocation: com/cintel/www/cc/help/ibatis.xml -->
+
+<sqlMap namespace="WebHelpInfo">
+    <!--  typeAlias -->
+    <typeAlias alias="WebHelpInfo" type="com.cintel.frame.web.app.help.WebHelpInfo"/>
+    
+    <resultMap id="ResultMap" class="WebHelpInfo">
+      <result property="helpKey" column="helpKey" jdbcType="varchar" />
+      <result property="menuKey" column="menuKey" jdbcType="varchar" />
+      <result property="helpText" column="helpText" jdbcType="varchar" />
+      <result property="htmlSupport" column="htmlSupport" jdbcType="int" />
+    </resultMap>
+
+
+    <sql id="selectBody"> 
+        web_help.help_key as helpKey
+        ,web_help.menu_key as menuKey
+        ,web_help.help_text as helpText
+        ,web_help.html_support as htmlSupport
+    </sql>
+
+    <insert id="insert" parameterClass="WebHelpInfo">
+        insert into web_help(
+             help_key
+            ,menu_key
+            ,help_text
+            ,html_support
+        )
+        values(
+            #helpKey#
+            ,#menuKey#
+            ,#helpText#
+            ,#htmlSupport#
+        )
+       
+    </insert>
+    
+    <select id="list" resultMap="ResultMap">
+      select
+          <include refid="selectBody"/>
+      from web_help web_help
+    </select>
+    
+    <select id="search" resultMap="ResultMap" parameterClass="java.util.Map">
+        select
+            <include refid="selectBody"/>
+        from web_help web_help
+        where 1=1
+            <isNotEmpty property="searchColumn" prepend=" and ">web_help.$searchColumn$ like '%$key$%'</isNotEmpty>
+            <isNotEmpty property="htmlSupportInList" prepend=" and ">web_help.html_support= #htmlSupportInList#</isNotEmpty>
+    </select>
+
+    <select id="get" resultMap="ResultMap" parameterClass="WebHelpInfo">
+        select
+          <include refid="selectBody"/>
+        from web_help web_help
+        where help_key=#helpKey#
+    </select>
+    
+    <select id="isUnique" resultClass="Integer" parameterClass="String">
+        select
+          count(*) resultCount
+		from web_help web_help
+        where
+            web_help.help_key=#value#
+    </select>
+
+  
+    <update id="update" parameterClass="WebHelpInfo">
+        update web_help web_help
+        set
+            menu_key=#menuKey#
+            ,help_text=#helpText#
+            ,html_support=#htmlSupport#
+        where help_key=#helpKey#
+    </update>
+  
+    <delete id="delete"  parameterClass="WebHelpInfo">
+        delete 
+        from web_help
+        where help_key=#helpKey#
+    </delete>
+</sqlMap>

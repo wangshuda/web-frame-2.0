@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"/WEB-INF/dtd/spring-beans.dtd">
+<beans>
+	<bean id="WebAdminDao" class="com.cintel.frame.webui.DomainDao">
+		<property name="sqlMapClient">
+			<ref bean="webSqlMapClient" />
+		</property>
+		<property name="nameSpace">
+			<value>WebAdmin</value>
+		</property>
+	</bean>
+	
+	<bean id="WebAdminService" class="com.cintel.frame.webui.DomainService">
+		<property name="dao">
+			<ref bean="WebAdminDao" />
+		</property>
+	</bean>
+	
+	<bean name="WebAdminValidator" class="com.cintel.frame.web.app.admin.Validator">
+        <property name="needValidateNames" value="insert,update"/>
+	</bean>
+	
+	<!-- Forward -->
+	<bean name="WebAdminActionForwardKey" class="com.cintel.frame.web.action.ActionForwardKey">
+		<property name="afterInsert" value="afterInsert" />
+		<property name="afterUpdate" value="afterUpdate" />
+		<property name="afterDelete" value="afterDelete" />
+	</bean>
+	
+    <bean name="/webAdmin" class="com.cintel.frame.web.app.admin.WebAdminAction" singleton="false">
+    	<property name="service">
+    		<ref bean="WebAdminService" />
+    	</property>
+        <property name="commandClass">
+        	<value>com.cintel.frame.web.app.admin.WebAdmin</value>
+		</property>
+    	<property name="actionForwardKey" >
+    		<ref bean="WebAdminActionForwardKey" />
+    	</property>
+    	<property name="validator" >
+    		<ref bean="WebAdminValidator" />
+    	</property>
+    </bean>
+</beans>

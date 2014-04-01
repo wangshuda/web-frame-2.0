@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"/WEB-INF/dtd/spring-beans.dtd">
+<beans>
+	<bean id="FuncAuthUrlPatternDao" class="com.cintel.frame.webui.DomainDao">
+		<property name="sqlMapClient">
+			<ref bean="webSqlMapClient" />
+		</property>
+		<property name="nameSpace">
+			<value>FuncAuthUrlPattern</value>
+		</property>
+	</bean>
+	
+	<bean id="FuncAuthUrlPatternService" class="com.cintel.frame.auth.func.pattern.FuncAuthUrlPatternService">
+		<property name="dao">
+			<ref bean="FuncAuthUrlPatternDao" />
+		</property>
+		<property name="funcItemDao">
+			<ref bean="FuncItemDao" />
+		</property>
+	</bean>
+	
+	<bean name="FuncAuthUrlPatternValidator" class="com.cintel.frame.auth.func.pattern.Validator">
+        <property name="needValidateNames" value="insert,update"/>
+	</bean>
+	
+	<!-- Forward -->
+	<bean name="FuncAuthUrlPatternActionForwardKey" class="com.cintel.frame.web.action.ActionForwardKey">
+		<property name="afterInsert"><value>afterModify</value></property>
+		<property name="afterDelete"><value>afterModify</value></property>
+	</bean>
+	
+    <bean name="/funcAuthUrlPattern" class="com.cintel.frame.auth.func.pattern.FuncAuthUrlPatternAction" singleton="false">
+    	<property name="funcAuthUrlPatternService">
+    		<ref bean="FuncAuthUrlPatternService" />
+    	</property>
+        <property name="commandClass">
+        	<value>com.cintel.frame.auth.func.pattern.FuncAuthUrlPattern</value>
+		</property>
+    	<property name="actionForwardKey" >
+    		<ref bean="FuncAuthUrlPatternActionForwardKey" />
+    	</property>
+    	<property name="validator" >
+    		<ref bean="FuncAuthUrlPatternValidator" />
+    	</property>
+    </bean>
+</beans>

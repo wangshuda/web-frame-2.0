@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"/WEB-INF/dtd/spring-beans.dtd">
+<beans>
+	
+    <bean id="MenuFromDbService" class="com.cintel.frame.auth.menu.MenuFromDbService" singleton="false">
+    	<property name="roleFuncInfoService">
+			<ref bean="RoleFuncInfoService"/>
+		</property>
+    </bean>
+
+	<bean id="SpringMenuItemsListFactory" class="com.cintel.frame.auth.menu.SpringMenuListFactory" singleton="true">
+		<property name="excludedMenuIdRegex"><value></value></property>
+	</bean>
+	
+    <bean id="MenuFromSpringService" class="com.cintel.frame.auth.menu.MenuFromSpringService" singleton="false">
+    	<property name="allFuncItemsList">
+			<ref bean="SpringMenuItemsListFactory"/>
+		</property>
+    </bean>
+
+</beans>

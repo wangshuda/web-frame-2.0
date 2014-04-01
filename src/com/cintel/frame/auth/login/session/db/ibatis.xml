@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "/WEB-INF/dtd/sql-map-2.dtd">
+<!-- fileLocation: com/cintel/frame/auth/login/session/db/ibatis.xml -->
+
+<sqlMap namespace="SessionUserInfo">
+    <!--  typeAlias -->
+    <typeAlias alias="SessionUserInfo" type="com.cintel.frame.auth.login.session.db.SessionUserInfo"/>
+    
+    <resultMap id="ResultMap" class="SessionUserInfo">
+      <result property="sessionId" column="sessionId" jdbcType="CHAR" />
+      <result property="sessionCreatedTime" column="sessionCreatedTime" jdbcType="CHAR" />
+      <result property="webAppName" column="webAppName" jdbcType="CHAR" />
+      <result property="userName" column="userName" jdbcType="CHAR" />
+      <result property="roleTitle" column="roleTitle" jdbcType="CHAR" />
+      <result property="authAreaCode" column="authAreaCode" jdbcType="CHAR" />
+      <result property="loginIp" column="loginIp" jdbcType="CHAR" />
+      <result property="loginDateTime" column="loginDateTime" jdbcType="CHAR" />
+      <result property="invalidateTime" column="invalidateTime" jdbcType="CHAR" />
+      <result property="lastRequestTime" column="lastRequestTime" jdbcType="CHAR" />
+      <result property="lastRequestUrl" column="lastRequestUrl" jdbcType="CHAR" />
+    </resultMap>
+
+    <sql id="selectBody"> 
+        web_session_user.session_id as sessionId
+        ,web_session_user.session_created_time as sessionCreatedTime
+        ,web_session_user.web_app_name as webAppName
+        ,web_session_user.user_name as userName
+        ,web_session_user.role_title as roleTitle
+        ,web_session_user.auth_area_code as authAreaCode
+        ,web_session_user.login_ip as loginIp
+        ,web_session_user.login_date_time as loginDateTime
+        ,web_session_user.invalidate_time as invalidateTime
+        ,web_session_user.last_request_time as lastRequestTime
+        ,web_session_user.last_request_url as lastRequestUrl
+    </sql>
+
+    <insert id="insert" parameterClass="SessionUserInfo">
+        insert into web_session_user(
+            session_id
+            ,session_created_time
+            ,web_app_name
+            ,user_name
+            ,role_title
+            ,auth_area_code
+            ,login_ip
+            ,login_date_time
+            ,invalidate_time
+            ,last_request_time
+            ,last_request_url
+        )
+        values(
+            #sessionId#
+            ,#sessionCreatedTime#
+            ,#webAppName#
+            ,#userName#
+            ,#roleTitle#
+            ,#authAreaCode#
+            ,#loginIp#
+            ,#loginDateTime#
+            ,#invalidateTime#
+            ,#lastRequestTime#
+            ,#lastRequestUrl#
+        )
+    </insert>
+    
+    <select id="list" resultMap="ResultMap">
+      select
+          <include refid="selectBody"/>
+      from web_session_user web_session_user
+      
+      order by login_date_time desc
+    </select>
+    
+    <select id="search" resultMap="ResultMap" parameterClass="java.util.Map">
+        select
+            <include refid="selectBody"/>
+        from web_session_user web_session_user
+        where 1=1
+            <isNotEmpty property="searchColumn" prepend=" and ">web_session_user.$searchColumn$ like '%$key$%'</isNotEmpty>
+        order by login_date_time desc
+    </select>
+
+    <select id="get" resultMap="ResultMap" parameterClass="SessionUserInfo">
+        select
+          <include refid="selectBody"/>
+        from web_session_user web_session_user
+        where
+            web_session_user.session_id=#sessionId#
+    </select>
+
+  
+    <update id="update" parameterClass="SessionUserInfo">
+        update web_session_user web_session_user
+        set
+            user_name=#userName#
+            ,role_title=#roleTitle#
+            ,login_ip=#loginIp#
+            ,login_date_time=#loginDateTime#
+            ,invalidate_time=#invalidateTime#
+            ,last_request_time=#lastRequestTime#
+            ,last_request_url=#lastRequestUrl#
+         where
+              web_session_user.session_id=#sessionId#
+    </update>
+
+    
+    <update id="updateInvalidateTime" parameterClass="SessionUserInfo">
+        update web_session_user web_session_user
+        set
+        	invalidate_time=#invalidateTime#
+            ,last_request_time=#lastRequestTime#
+         where
+              web_session_user.session_id=#sessionId#
+    </update>
+    
+    <delete id="delete"  parameterClass="SessionUserInfo">
+        delete 
+        from web_session_user
+        where
+             session_id=#sessionId#
+    </delete>
+    
+    <delete id="deleteWithId"  parameterClass="String">
+        delete 
+        from web_session_user
+        where
+             session_id=#value#
+    </delete>
+</sqlMap>

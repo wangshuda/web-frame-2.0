@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" 
+	"/WEB-INF/dtd/struts-config_1_2.dtd">
+
+<struts-config>
+	<form-beans>
+		<form-bean name="FuncAuthUrlPatternForm" type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="command" type="com.cintel.frame.auth.func.pattern.FuncAuthUrlPattern"/>
+		</form-bean>
+	</form-beans>
+	
+	<action-mappings>
+		<action path="/funcAuthUrlPattern" type="org.springframework.web.struts.DelegatingActionProxy" name="FuncAuthUrlPatternForm" scope="request" parameter="method" validate="false">
+			<forward name="edit" path="/webui/system/funcAuthUrlPattern/edit.jsp"/>
+			<forward name="search" path="/webui/system/funcAuthUrlPattern/list.jsp"/>
+			<forward name="afterModify" path="/funcAuthUrlPattern.do?method=search"/>
+		</action>
+	</action-mappings>
+</struts-config>
